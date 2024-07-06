@@ -2,9 +2,8 @@ services:
   - type: web
     name: frontend-project-12
     env: node
-    region: oregon
-    buildCommand: npm run build
-    startCommand: npm start
-    envVars:
-      - key: NODE_ENV
-        value: production
+    buildCommand: npm install --prefix frontend && npm run build --prefix frontend
+    startCommand: start-server -s ./frontend/build
+    publish:
+      path: ./frontend/build
+    plan: free
