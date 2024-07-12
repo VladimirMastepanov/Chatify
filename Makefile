@@ -4,10 +4,10 @@ lint-frontend:
 install:
 	npm ci
 
-frontend:
+start-frontend:
 	make -C frontend start
 
-server:
+start-backend:
 	npx start-server
 
 deploy:
