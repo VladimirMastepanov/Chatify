@@ -7,7 +7,7 @@
   -moz-osx-font-smoothing: grayscale;
 } */
 
-code {
+/* code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
@@ -29,4 +29,4 @@ body {
   line-height: var(--bs-body-line-height);
   margin: 0;
   text-align: var(--bs-body-text-align);
-}
+} */
