@@ -95,7 +95,7 @@ const LoginCard = () => (
   </div>
 );
 
-const Login = () => (
+const LoginPage = () => (
   <div className="d-flex flex-column min-vh-100">
     <TopNavigation />
     <div className="container-fluid d-flex justify-content-center align-items-center flex-grow-1">
@@ -111,4 +111,4 @@ const Login = () => (
   </div>
 );
 
-export default Login;
+export default LoginPage;

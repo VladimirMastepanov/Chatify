@@ -1,10 +1,11 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { createBrowserRouter, RouterProvider, Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Provider, useDispatch } from 'react-redux';
+import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
 import store from './app/store';
 import NotFound from './pages/NotFoundPage';
 import AppPage from './pages/AppPage';
-import Login from './pages/LoginPage';
+import LoginPage from './pages/LoginPage';
+import { setCredentials } from './features/authentication/authSlice';
 
 const router = createBrowserRouter([
   {
@@ -12,37 +13,40 @@ const router = createBrowserRouter([
     element: <AppPage />,
   },
   {
+    path: '/login',
+    element: <LoginPage />,
+  },
+  {
     path: '*',
     element: <NotFound />,
   },
-  {
-    path: '/login',
-    element: <Login />,
-  },
 ]);
 
-const App = () => (
-  <Provider store={store}>
-    <div className="App">
-      <div className="h-100 bg-light">
-        <RouterProvider router={router}>
-          <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
-            <ul>
-              <li>
-                <Link to="/login">Login</Link>
-              </li>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="*">404 Not Found</Link>
-              </li>
-            </ul>
-          </nav>
-        </RouterProvider>
-      </div>
-    </div>
-  </Provider>
-);
+const App = () => {
+ const dispatch = useDispatch();
+
+  useEffect(() => {
+    const savedUser =  JSON.parse(localStorage.getItem('userId'));
+    if(savedUser) {
+      dispatch(setCredentials(savedUser));
+    }
+  }, [dispatch])
+
+  return (
+    <Provider store={store}>
+      <RouterProvider router={router}>
+        <div className="App">
+          <div className="h-100 bg-light">
+            {auth ? (
+              <Route path="/" element={<AppPage />} />
+            ) : (
+              <Route path="/login" element={<LoginPage />} />
+            )}
+          </div>
+        </div>
+      </RouterProvider>
+    </Provider>
+  )
+};
 
 export default App;
