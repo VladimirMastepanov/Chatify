@@ -1,22 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { currentUserSelector, setCredentials } from '../features/authentication/authSlice';
+import { currentTokenSelector, clearCredentials } from '../features/authentication/authSlice';
 
 const TopNavigation = () => {
-  const auth = useSelector(currentUserSelector);
+  const auth = useSelector(currentTokenSelector);
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     localStorage.removeItem('userId');
-    dispatch(setCredentials({ user: null, token: null }));
+    dispatch(clearCredentials);
   };
 
-  useEffect(() => {
-    const savedUser = localStorage.getItem('userId');
-    if (savedUser) {
-      dispatch(setCredentials(JSON.parse(savedUser)));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const savedUser = localStorage.getItem('userId');
+  // }, []);
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">

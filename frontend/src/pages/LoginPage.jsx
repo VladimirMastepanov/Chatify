@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import routes from '../routes';
 import { setCredentials } from '../features/authentication/authSlice';
@@ -17,6 +17,7 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const [authFailed, setAuthFailed] = useState(null);
   const navigate = useNavigate();
+  console.log(authFailed);
 
   return (
     <Formik
@@ -26,8 +27,8 @@ const LoginForm = () => {
         console.log(values);
         try {
           const res = await axios.post(routes.loginPath(), values);
-          localStorage.setItem('userId', JSON.stringify(res.data));
-          dispatch(setCredentials({ user: values, token: res.data.token }));
+          localStorage.setItem('userToken', res.data.token);
+          dispatch(setCredentials({ token: res.data.token }));
           setAuthFailed(null);
           navigate('/');
           console.log(res);

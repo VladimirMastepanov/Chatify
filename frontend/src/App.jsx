@@ -1,52 +1,72 @@
-import React, { useEffect } from 'react';
-import { Provider, useDispatch } from 'react-redux';
-import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
-import store from './app/store';
-import NotFound from './pages/NotFoundPage';
-import AppPage from './pages/AppPage';
-import LoginPage from './pages/LoginPage';
-import { setCredentials } from './features/authentication/authSlice';
+/* eslint-disable no-nested-ternary */
+import React, { Suspense } from 'react';
+import { useSelector } from 'react-redux';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route, Routes,
+  Navigate,
+} from 'react-router-dom';
+import { currentTokenSelector } from './features/authentication/authSlice';
+import Spinner from './components/Spinner';
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <AppPage />,
-  },
-  {
-    path: '/login',
-    element: <LoginPage />,
-  },
-  {
-    path: '*',
-    element: <NotFound />,
-  },
-]);
+const AppPage = React.lazy(() => import('./pages/AppPage'));
+const LoginPage = React.lazy(() => import('./pages/LoginPage'));
+const NotFound = React.lazy(() => import('./pages/NotFoundPage'));
+
+const AppRoutes = ({ isAuthenticated }) => (
+  <Routes>
+    <Route path="/" element={isAuthenticated ? <AppPage /> : <Navigate to="/login" />} />
+    <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />} />
+    <Route path="*" element={<NotFound />} />
+  </Routes>
+);
 
 const App = () => {
- const dispatch = useDispatch();
+  const isAuthenticated = useSelector(currentTokenSelector);
 
-  useEffect(() => {
-    const savedUser =  JSON.parse(localStorage.getItem('userId'));
-    if(savedUser) {
-      dispatch(setCredentials(savedUser));
-    }
-  }, [dispatch])
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: isAuthenticated === undefined ? (
+        <Spinner />
+      ) : isAuthenticated ? (
+        <Suspense fallback={<Spinner />}>
+          <AppPage />
+        </Suspense>
+      ) : (
+        <Navigate to="/login" />
+      ),
+    },
+    {
+      path: '/login',
+      element: isAuthenticated === undefined ? (
+        <Spinner />
+      ) : isAuthenticated ? (
+        <Navigate to="/" />
+      ) : (
+        <Suspense fallback={<Spinner />}>
+          <LoginPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: '*',
+      element: (
+        <Suspense fallback={<Spinner />}>
+          <NotFound />
+        </Suspense>
+      ),
+    },
+  ]);
 
   return (
-    <Provider store={store}>
+    <Suspense fallback={<Spinner />}>
       <RouterProvider router={router}>
-        <div className="App">
-          <div className="h-100 bg-light">
-            {auth ? (
-              <Route path="/" element={<AppPage />} />
-            ) : (
-              <Route path="/login" element={<LoginPage />} />
-            )}
-          </div>
-        </div>
+        <AppRoutes isAuthenticated={isAuthenticated} />
       </RouterProvider>
-    </Provider>
-  )
+    </Suspense>
+  );
 };
 
 export default App;
