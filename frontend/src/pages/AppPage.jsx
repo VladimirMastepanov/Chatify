@@ -6,15 +6,14 @@ import { currentTokenSelector } from '../features/authentication/authSlice';
 import routes from '../routes';
 
 const AppPage = () => {
-  const user = useSelector(currentTokenSelector);
-  console.log(user);
-  const data = [1, 3, 4]
+  const userToken = useSelector(currentTokenSelector);
+  console.log(userToken);
 
   useEffect(() => {
-    const token = localStorage.getItem('userToken');
+    // const token = localStorage.getItem('userToken');
     const header = {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${userToken}`,
       },
     };
     const getChannels = async () => {
@@ -27,7 +26,7 @@ const AppPage = () => {
     };
     console.log(getChannels());
     console.log(getMessages());
-  }, [data]);
+  }, []);
 
   return (
     <div className="d-flex flex-column min-vh-100">
