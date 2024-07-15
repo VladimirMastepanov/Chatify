@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { channelsSelector } from '../features/channels/channelsSlice';
-import { messagesSelector } from '../features/messages/messagesSlice';
+import { channelsSelector, addChannels } from '../features/channels/channelsSlice';
+import { messagesSelector, addMessages } from '../features/messages/messagesSlice';
 import TopNavigation from '../components/TopNavigation';
 import { currentTokenSelector } from '../features/authentication/authSlice';
 import routes from '../routes';
-
-const normalizeChannelsData = () => {
-};
-
-const normalizeMessagesData = () => {
-};
+import normalizeData from '../helpers/normalizeData';
 
 const ChannelsList = ({ ids, entities }) => {
   if (ids.length === 0) {
@@ -49,10 +44,12 @@ const AppPage = () => {
         const res = await axios.get(routes.channelsPath(), header);
         return res;
       };
+      dispatch(addChannels(normalizeData(getChannels())));
       const getMessages = async () => {
         const res = await axios.get(routes.messagesPath(), header);
         return res;
       };
+      dispatch(addMessages(normalizeData(getMessages())));
     } catch (e) {
       console.log(e.message);
     }
