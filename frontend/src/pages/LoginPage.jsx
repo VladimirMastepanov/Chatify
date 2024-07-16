@@ -29,6 +29,7 @@ const LoginForm = () => {
           const res = await axios.post(routes.loginPath(), values);
           localStorage.setItem('userToken', res.data.token);
           dispatch(setCredentials({ token: res.data.token }));
+          localStorage.setItem('token', res.data.token);
           setAuthFailed(null);
           navigate('/');
           console.log(res);
