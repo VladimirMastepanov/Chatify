@@ -1,7 +1,7 @@
 import React from 'react';
 import ChannelsList from './ChannelsList';
 
-const ChannelsColumn = () => {
+const ChannelsColumn = ({ activeChannelName, setActiveChannelName }) => {
   const q = 1;
 
   return (
@@ -16,7 +16,10 @@ const ChannelsColumn = () => {
           <span className="visually-hidden">+</span>
         </button>
       </div>
-      <ChannelsList />
+      <ChannelsList
+        activeChannelName={activeChannelName}
+        setActiveChannelName={setActiveChannelName}
+      />
     </div>
   );
 };

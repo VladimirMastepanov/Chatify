@@ -46,7 +46,10 @@ const AppPage = () => {
       <TopNavigation />
       <div className="container flex-grow-1 my-4 overflow-hidden rounded shadow    d-flex flex-column">
         <div className="row bg-white flex-grow-1 h-100 flex-md-row">
-          <ChannelsColumn />
+          <ChannelsColumn
+            activeChannelName={activeChannelName}
+            setActiveChannelName={setActiveChannelName}
+          />
           <MessagesColumn />
         </div>
       </div>
