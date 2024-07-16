@@ -3,6 +3,8 @@ import { removeChannel } from '../channels/channelsSlice';
 
 const messagesAdapter = createEntityAdapter();
 const initialState = messagesAdapter.getInitialState({
+  entities: {},
+  ids: [],
   loading: 'idle',
   error: null,
 });
@@ -11,7 +13,9 @@ const messagesSlice = createSlice({
   name: 'messages',
   initialState,
   reducers: {
-    addMessages: messagesAdapter.addMany,
+    setMessages: (state, action) => {
+      messagesAdapter.setAll(state, action.payload);
+    },
     addMessage: messagesAdapter.addOne,
     updateMessage: messagesAdapter.updateOne,
     removeMessage: messagesAdapter.removeOne,
@@ -27,11 +31,10 @@ const messagesSlice = createSlice({
 });
 
 export const {
-  addMessages,
+  setMessages,
   addMessage,
   updateMessage,
   removeMessage,
-  removeChannelMessages,
 } = messagesSlice.actions;
 export const messagesSelector = messagesAdapter.getSelectors((state) => state.messages);
 export default messagesSlice.reducer;

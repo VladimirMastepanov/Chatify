@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { channelsSelector, addChannels } from '../features/channels/channelsSlice';
-import { messagesSelector, addMessages } from '../features/messages/messagesSlice';
+import { channelsSelector, addChannels, setChannels } from '../features/channels/channelsSlice';
+import { messagesSelector, setMessages } from '../features/messages/messagesSlice';
 import TopNavigation from '../components/TopNavigation';
 import { currentTokenSelector } from '../features/authentication/authSlice';
 import routes from '../routes';
-import normalizeData from '../helpers/normalizeData';
+import AddNewMessageForm from '../components/AddNewMessageForm';
 
 const ChannelsList = ({ ids, entities }) => {
-  if (ids.length === 0) {
+  if (!ids || ids.length === 0) {
     return null;
   }
+  const activeChannelButtonClassName = 'w-100 rounded-0 text-start btn btn-secondary';
   return (
     <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
       {ids.map((id) => (
         <li key={id} className="nav-item w-100">
           <button type="button" className="w-100 rounded-0 text-start btn">
             <span className="me-1">#</span>
-            {entities.name}
+            {entities[id].name}
           </button>
         </li>
       ))}
@@ -27,33 +28,39 @@ const ChannelsList = ({ ids, entities }) => {
 };
 
 const AppPage = () => {
-  const [activeChannel, setActiveChannel] = useState(null);
+  const [activeChannelName, setActiveChannelName] = useState('general');
   const userToken = useSelector(currentTokenSelector);
   const dispatch = useDispatch();
-  const channels = useSelector(channelsSelector.selectAll);
+  const channelsIds = useSelector(channelsSelector.selectIds);
+  const channelsEntities = useSelector(channelsSelector.selectEntities);
   const messages = useSelector(messagesSelector.selectAll);
 
   useEffect(() => {
-    const header = {
-      headers: {
-        Authorization: `Bearer ${userToken}`,
-      },
+    const fetchData = async () => {
+      const header = {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      };
+      try {
+        const getChannels = async () => {
+          const res = await axios.get(routes.channelsPath(), header);
+          return res.data;
+        };
+        const channelsData = await getChannels();
+        dispatch(setChannels(channelsData));
+        // const getMessages = async () => {
+        //   const res = await axios.get(routes.messagesPath(), header);
+        //   return res.data;
+        // };
+        // const messageData = await getMessages();
+        // dispatch(addMessages(normalizeData(messageData)));
+      } catch (e) {
+        console.log(e.message);
+      }
     };
-    try {
-      const getChannels = async () => {
-        const res = await axios.get(routes.channelsPath(), header);
-        return res;
-      };
-      dispatch(addChannels(normalizeData(getChannels())));
-      const getMessages = async () => {
-        const res = await axios.get(routes.messagesPath(), header);
-        return res;
-      };
-      dispatch(addMessages(normalizeData(getMessages())));
-    } catch (e) {
-      console.log(e.message);
-    }
-  }, [dispatch]);
+    fetchData();
+  }, []);
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -71,9 +78,21 @@ const AppPage = () => {
                 <span className="visually-hidden">+</span>
               </button>
             </div>
-            <ChannelsList channels={channels} />
+            <ChannelsList ids={channelsIds} entities={channelsEntities} />
           </div>
           <div className="col p-0 h-100">
+            <div className="d-flex flex-column h-100">
+              <div className="bg-light mb-4 p-3 shadow-sm small">
+                <p className="m-0">
+                  <b>!!! add Channel name</b>
+                </p>
+                <span className="text-muted">!!! messages count</span>
+              </div>
+              <div id="messages-box" className="chat-messages owerflow-auto px-5" />
+              <div className="mt-auto px-5 py-3">
+                <AddNewMessageForm />
+              </div>
+            </div>
           </div>
         </div>
       </div>
