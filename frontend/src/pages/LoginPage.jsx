@@ -17,14 +17,14 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const [authFailed, setAuthFailed] = useState(null);
   const navigate = useNavigate();
-  console.log(authFailed);
+  // console.log(authFailed);
 
   return (
     <Formik
       initialValues={{ username: '', password: '' }}
       validationSchema={validationSchema}
       onSubmit={async (values, actions) => {
-        console.log(values);
+        // console.log(values);
         try {
           const res = await axios.post(routes.loginPath(), values);
           localStorage.setItem('userToken', res.data.token);
@@ -32,9 +32,9 @@ const LoginForm = () => {
           localStorage.setItem('token', res.data.token);
           setAuthFailed(null);
           navigate('/');
-          console.log(res);
+          // console.log(res);
         } catch (e) {
-          console.log(e.message);
+          // console.log(e.message);
           setAuthFailed('Неверные имя пользователя или пароль');
         }
         actions.setSubmitting(false);

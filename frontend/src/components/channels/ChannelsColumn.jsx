@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import ChannelsList from './ChannelsList';
 import AddChannelModalWindow from './AddChannelModalWindow';
 
-const ChannelsColumn = ({ activeChannelName, setActiveChannelName }) => {
+const ChannelsColumn = ({ activeChannelId, setActiveChannelId }) => {
   const [showModal, setShowModal] = useState(false);
 
-  const onHide = () => setShowModal(false)
+  const onHide = () => setShowModal(false);
 
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
@@ -20,8 +20,8 @@ const ChannelsColumn = ({ activeChannelName, setActiveChannelName }) => {
         </button>
       </div>
       <ChannelsList
-        activeChannelName={activeChannelName}
-        setActiveChannelName={setActiveChannelName}
+        activeChannelId={activeChannelId}
+        setActiveChannelId={setActiveChannelId}
       />
       <AddChannelModalWindow show={showModal} onHide={onHide} />
     </div>

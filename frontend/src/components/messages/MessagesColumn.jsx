@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import AddNewMessageForm from './AddNewMessageForm';
 import MessagesList from './MessagesList';
 
-const MessagesColumn = () => {
-
+const MessagesColumn = ({ activeChannelId }) => {
+  const q = 1;
   return (
     <div className="col p-0 h-100">
       <div className="d-flex flex-column h-100">
@@ -14,7 +14,7 @@ const MessagesColumn = () => {
           </p>
           <span className="text-muted">!!! messages count</span>
         </div>
-        <MessagesList />
+        <MessagesList activeChannelId={activeChannelId} />
         <div className="mt-auto px-5 py-3">
           <AddNewMessageForm />
         </div>

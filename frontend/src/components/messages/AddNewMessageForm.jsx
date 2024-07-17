@@ -3,13 +3,12 @@ import { Formik, Form, Field } from 'formik';
 
 const AddNewMessageForm = () => {
   const qw = 1;
-  console.log(qw);
 
   return (
     <Formik
       initialValues={{ body: '' }}
       onSubmit={(values, actions) => {
-        console, log(values);
+        console, log(values, actions);
       }}
     >
       {(props) => (

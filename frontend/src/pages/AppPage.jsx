@@ -10,7 +10,7 @@ import ChannelsColumn from '../components/channels/ChannelsColumn';
 import MessagesColumn from '../components/messages/MessagesColumn';
 
 const AppPage = () => {
-  const [activeChannelName, setActiveChannelName] = useState('general');
+  const [activeChannelId, setActiveChannelId] = useState('1');
   const userToken = useSelector(currentTokenSelector);
   const dispatch = useDispatch();
 
@@ -47,10 +47,10 @@ const AppPage = () => {
       <div className="container flex-grow-1 my-4 overflow-hidden rounded shadow    d-flex flex-column">
         <div className="row bg-white flex-grow-1 h-100 flex-md-row">
           <ChannelsColumn
-            activeChannelName={activeChannelName}
-            setActiveChannelName={setActiveChannelName}
+            activeChannelId={activeChannelId}
+            setActiveChannelId={setActiveChannelId}
           />
-          <MessagesColumn />
+          <MessagesColumn activeChannelId={activeChannelId} />
         </div>
       </div>
     </div>
