@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
-import { channelsSelector, fetchChannels } from '../features/channels/channelsSlice';
-import { messagesSelector, setMessages } from '../features/messages/messagesSlice';
+import { fetchChannels } from '../features/channels/channelsSlice';
+import { fetchMessages } from '../features/messages/messagesSlice';
 import TopNavigation from '../components/TopNavigation';
 import { currentTokenSelector } from '../features/authentication/authSlice';
-import routes from '../routes';
 import ChannelsColumn from '../components/channels/ChannelsColumn';
 import MessagesColumn from '../components/messages/MessagesColumn';
-import getHeader from '../helpers/getHeader';
 
 const AppPage = () => {
   const [activeChannelId, setActiveChannelId] = useState('1');
@@ -17,20 +14,21 @@ const AppPage = () => {
 
   useEffect(() => {
     dispatch(fetchChannels(userToken));
-    const fetchData = async () => {
-      try {
-        const getMessages = async () => {
-          const res = await axios.get(routes.messagesPath(), getHeader(userToken));
-          return res.data;
-        };
-        const messageData = await getMessages();
-        dispatch(setMessages(messageData));
-      } catch (e) {
-        console.log(e.message);
-      }
-    };
-    fetchData();
-  }, []);
+    dispatch(fetchMessages(userToken));
+    // const fetchData = async () => {
+    //   try {
+    //     const getMessages = async () => {
+    //       const res = await axios.get(routes.messagesPath(), getHeader(userToken));
+    //       return res.data;
+    //     };
+    //     const messageData = await getMessages();
+    //     dispatch(setMessages(messageData));
+    //   } catch (e) {
+    //     console.log(e.message);
+    //   }
+    // };
+    // fetchData();
+  }, [userToken, dispatch]);
 
   return (
     <div className="d-flex flex-column min-vh-100">

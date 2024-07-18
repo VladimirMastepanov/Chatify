@@ -32,27 +32,12 @@ const LoginForm = () => {
     }
   }, [token, error, navigate]);
 
-  // console.log(authFailed);
-
   return (
     <Formik
       initialValues={{ username: '', password: '' }}
       validationSchema={validationSchema}
       onSubmit={async (values, actions) => {
         dispatch(fetchAuth(values));
-        // console.log(values);
-        // try {
-        // const res = await axios.post(routes.loginPath(), values);
-        // localStorage.setItem('userToken', res.data.token);
-        // dispatch(setCredentials({ token: res.data.token }));
-        // localStorage.setItem('token', res.data.token);
-        // setAuthFailed(null);
-        // navigate('/');
-        // console.log(res);
-        // } catch (e) {
-        // console.log(e.message);
-        // setAuthFailed('Неверные имя пользователя или пароль');
-        // }
         actions.setSubmitting(false);
       }}
     >

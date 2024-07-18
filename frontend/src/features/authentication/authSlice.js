@@ -18,10 +18,6 @@ const authSlice = createSlice({
     error: null,
   },
   reducers: {
-    // setCredentials: (state, action) => {
-    //   const { token } = action.payload;
-    //   state.token = token || state.token;
-    // },
     clearCredentials: (state) => {
       state.token = null;
     },
