@@ -15,19 +15,6 @@ const AppPage = () => {
   useEffect(() => {
     dispatch(fetchChannels(userToken));
     dispatch(fetchMessages(userToken));
-    // const fetchData = async () => {
-    //   try {
-    //     const getMessages = async () => {
-    //       const res = await axios.get(routes.messagesPath(), getHeader(userToken));
-    //       return res.data;
-    //     };
-    //     const messageData = await getMessages();
-    //     dispatch(setMessages(messageData));
-    //   } catch (e) {
-    //     console.log(e.message);
-    //   }
-    // };
-    // fetchData();
   }, [userToken, dispatch]);
 
   return (

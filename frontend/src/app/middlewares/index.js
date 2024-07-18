@@ -1,4 +1,4 @@
-import logger from './logger.js/logger';
-// import socketApi from './socketApi/socketApi';
+import loggerMiddleware from './logger.js/loggerMiddleware';
+import socketMiddleware from './socket/socketMiddleware';
 
-export default [logger];
+export default [loggerMiddleware, socketMiddleware];
