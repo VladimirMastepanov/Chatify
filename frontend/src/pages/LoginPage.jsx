@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import {
   Formik,
   Form,
   Field,
   ErrorMessage,
 } from 'formik';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import routes from '../routes';
-import { setCredentials } from '../features/authentication/authSlice';
+import { fetchAuth, currentTokenSelector, authorizationError } from '../features/authentication/authSlice';
 import TopNavigation from '../components/TopNavigation';
 
 const validationSchema = yup.object().shape({
@@ -20,8 +18,20 @@ const validationSchema = yup.object().shape({
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const [authFailed, setAuthFailed] = useState(null);
+  const token = useSelector(currentTokenSelector);
+  const error = useSelector(authorizationError);
+  const [authFailed, setAuthFailed] = useState(error);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token) {
+      setAuthFailed(null);
+      navigate('/');
+    } else {
+      setAuthFailed(error);
+    }
+  }, [token, error, navigate]);
+
   // console.log(authFailed);
 
   return (
@@ -29,19 +39,20 @@ const LoginForm = () => {
       initialValues={{ username: '', password: '' }}
       validationSchema={validationSchema}
       onSubmit={async (values, actions) => {
+        dispatch(fetchAuth(values));
         // console.log(values);
-        try {
-          const res = await axios.post(routes.loginPath(), values);
-          localStorage.setItem('userToken', res.data.token);
-          dispatch(setCredentials({ token: res.data.token }));
-          localStorage.setItem('token', res.data.token);
-          setAuthFailed(null);
-          navigate('/');
-          // console.log(res);
-        } catch (e) {
-          // console.log(e.message);
-          setAuthFailed('Неверные имя пользователя или пароль');
-        }
+        // try {
+        // const res = await axios.post(routes.loginPath(), values);
+        // localStorage.setItem('userToken', res.data.token);
+        // dispatch(setCredentials({ token: res.data.token }));
+        // localStorage.setItem('token', res.data.token);
+        // setAuthFailed(null);
+        // navigate('/');
+        // console.log(res);
+        // } catch (e) {
+        // console.log(e.message);
+        // setAuthFailed('Неверные имя пользователя или пароль');
+        // }
         actions.setSubmitting(false);
       }}
     >

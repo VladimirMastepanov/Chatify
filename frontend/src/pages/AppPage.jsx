@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { channelsSelector, setChannels } from '../features/channels/channelsSlice';
+import { channelsSelector, fetchChannels } from '../features/channels/channelsSlice';
 import { messagesSelector, setMessages } from '../features/messages/messagesSlice';
 import TopNavigation from '../components/TopNavigation';
 import { currentTokenSelector } from '../features/authentication/authSlice';
 import routes from '../routes';
 import ChannelsColumn from '../components/channels/ChannelsColumn';
 import MessagesColumn from '../components/messages/MessagesColumn';
+import getHeader from '../helpers/getHeader';
 
 const AppPage = () => {
   const [activeChannelId, setActiveChannelId] = useState('1');
@@ -15,21 +16,11 @@ const AppPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(fetchChannels(userToken));
     const fetchData = async () => {
-      const header = {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      };
       try {
-        const getChannels = async () => {
-          const res = await axios.get(routes.channelsPath(), header);
-          return res.data;
-        };
-        const channelsData = await getChannels();
-        dispatch(setChannels(channelsData));
         const getMessages = async () => {
-          const res = await axios.get(routes.messagesPath(), header);
+          const res = await axios.get(routes.messagesPath(), getHeader(userToken));
           return res.data;
         };
         const messageData = await getMessages();
