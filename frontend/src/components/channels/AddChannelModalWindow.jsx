@@ -1,6 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
-import { Modal, FormGroup, FormControl, Button } from 'react-bootstrap';
+import {
+  Modal,
+  FormGroup,
+  FormControl,
+  Button,
+} from 'react-bootstrap';
 
 const AddChannelModalWindow = (props) => {
   const { onHide, show } = props;

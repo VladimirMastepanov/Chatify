@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { channelsSelector, addChannels, setChannels } from '../features/channels/channelsSlice';
+import { channelsSelector, setChannels } from '../features/channels/channelsSlice';
 import { messagesSelector, setMessages } from '../features/messages/messagesSlice';
 import TopNavigation from '../components/TopNavigation';
 import { currentTokenSelector } from '../features/authentication/authSlice';

@@ -8,7 +8,7 @@ const AddNewMessageForm = () => {
     <Formik
       initialValues={{ body: '' }}
       onSubmit={(values, actions) => {
-        console, log(values, actions);
+        console.log(values, actions);
       }}
     >
       {(props) => (
