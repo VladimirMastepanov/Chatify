@@ -2,7 +2,16 @@ import { addOneMessage } from '../../../features/messages/messagesSlice';
 import { addOneChannel, removeOneChannel, renameOneChannel } from '../../../features/channels/channelsSlice';
 
 const socketMiddleware = (socket) => ({ dispatch }) => {
+  if (!socket) {
+    console.error('Socket instance is not provided');
+    return (next) => (action) => next(action);
+  }
+  if (typeof socket.on !== 'function') {
+    console.error('socket.on is not a function');
+    return (next) => (action) => next(action);
+  }
   socket.on('newMessage', (payload) => {
+    console.log('Received newMessage:', payload);
     dispatch(addOneMessage(payload));
   });
 
@@ -11,12 +20,12 @@ const socketMiddleware = (socket) => ({ dispatch }) => {
   });
 
   socket.on('removeChannel', (payload) => {
-    dispatch.removeOneChannel(payload.id);
+    dispatch(removeOneChannel(payload.id));
   });
 
   socket.on('renameChannel', (payload) => {
-    const { id, ...rest } = payload;
-    dispatch.renameOneChannel({ id, changes: rest });
+    const { id, ...changes } = payload;
+    dispatch(renameOneChannel({ id, changes }));
   });
 
   return (next) => (action) => next(action);
