@@ -1,20 +1,41 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
+import { addMessage } from '../../features/messages/messagesSlice';
+import { currentUsernameSelector } from '../../features/authentication/authSlice';
 
-const AddNewMessageForm = () => {
-  const qw = 1;
+const AddNewMessageForm = ({ activeChannelId }) => {
+  const dispatch = useDispatch();
+  const username = useSelector(currentUsernameSelector);
+  const inputRef = useRef();
+
+  useEffect(() => {
+    if (inputRef) {
+      inputRef.current.focus();
+    }
+  });
 
   return (
     <Formik
       initialValues={{ body: '' }}
       onSubmit={(values, actions) => {
-        console.log(values, actions);
+        const userToken = localStorage.getItem('token');
+        const newMessage = {
+          body: values.body,
+          username,
+          channelId: activeChannelId,
+        };
+        console.log(userToken, newMessage);
+        dispatch(addMessage({ userToken, newMessage }));
+        actions.setSubmitting(false);
+        actions.resetForm();
       }}
     >
       {(props) => (
         <Form noValidate className="py-1 border rounded-2" onSubmit={props.handleSubmit}>
           <div className="input-group has-validation">
             <Field
+              innerRef={inputRef}
               name="body"
               id="body"
               aria-label="Новое сообщение"
