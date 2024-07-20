@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { removeChannel } from '../channels/channelsSlice';
+// import { removeChannel } from '../channels/channelsSlice';
 import routes from '../../routes';
 import getHeader from '../../helpers/getHeader';
 
@@ -14,7 +14,7 @@ export const fetchMessages = createAsyncThunk(
 
 export const addMessage = createAsyncThunk(
   'messages/addMessage',
-  async (userToken, newMessage) => {
+  async ({ userToken, newMessage }) => {
     const response = await axios.post(routes.messagesPath(), newMessage, getHeader(userToken));
     return response.data;
   },
@@ -22,7 +22,7 @@ export const addMessage = createAsyncThunk(
 
 export const updateMessage = createAsyncThunk(
   'messages/updateMessage',
-  async (userToken, id, newBody) => {
+  async ({ userToken, id, newBody }) => {
     const response = await axios
       .patch(routes.messagesPathWithId(id), newBody, getHeader(userToken));
     return response.data;
@@ -31,7 +31,7 @@ export const updateMessage = createAsyncThunk(
 
 export const removeMessage = createAsyncThunk(
   'messages/removeMessage',
-  async (userToken, id) => {
+  async ({ userToken, id }) => {
     const response = await axios.delete(routes.messagesPathWithId(id), getHeader(userToken));
     return response.data;
   },
@@ -49,18 +49,18 @@ const messagesSlice = createSlice({
   name: 'messages',
   initialState,
   reducers: {
-    addOneMessage: (payload) => {
-      messagesAdapter.addCase(payload);
+    addOneMessage: (state, action) => {
+      messagesAdapter.addOne(state, action.payload);
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(removeChannel, (state, action) => {
-        const channelId = action.payload;
-        const restEntities = Object.values(state.entities)
-          .filter((e) => e.channelId !== channelId);
-        messagesAdapter.setAll(state, restEntities);
-      })
+      // .addCase(removeChannel, (state, action) => {
+      //   const channelId = action.payload;
+      //   const restEntities = Object.values(state.entities)
+      //     .filter((e) => e.channelId !== channelId);
+      //   messagesAdapter.setAll(state, restEntities);
+      // })
       .addCase(fetchMessages.pending, (state) => {
         state.loadingStatus = 'loading';
         state.error = null;
@@ -80,7 +80,7 @@ const messagesSlice = createSlice({
       })
       .addCase(addMessage.fulfilled, (state, action) => {
         state.loadingStatus = 'idle';
-        messagesAdapter.addOne(action.payload);
+        messagesAdapter.addOne(state, action.payload);
         state.error = null;
       })
       .addCase(addMessage.rejected, (state, action) => {
@@ -92,9 +92,9 @@ const messagesSlice = createSlice({
         state.error = null;
       })
       .addCase(updateMessage.fulfilled, (state, action) => {
-        const { id, ...rest } = action.payload;
+        const { id, ...changes } = action.payload;
         state.loadingStatus = 'idle';
-        messagesAdapter.updateOne({ id, changes: rest });
+        messagesAdapter.updateOne(state, { id, changes });
         state.error = null;
       })
       .addCase(updateMessage.rejected, (state, action) => {
@@ -107,7 +107,7 @@ const messagesSlice = createSlice({
       })
       .addCase(removeMessage.fulfilled, (state, action) => {
         state.loadingStatus = 'idle';
-        messagesAdapter.updateOne(action.payload);
+        messagesAdapter.updateOne(state, action.meta.arg.id);
         state.error = null;
       })
       .addCase(removeMessage.rejected, (state, action) => {
