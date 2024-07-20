@@ -3,11 +3,15 @@ import { useSelector } from 'react-redux';
 import cn from 'classnames';
 import { channelsSelector } from '../../features/channels/channelsSlice';
 
-const ChannelsList = ({ activeChannelId, setActiveChannelId }) => {
+const ChannelsList = ({ activeChannelId, setActiveChannelName, setActiveChannelId }) => {
   const ids = useSelector(channelsSelector.selectIds);
   const entities = useSelector(channelsSelector.selectEntities);
-  console.log(activeChannelId);
   console.log(ids);
+
+  const handleActiveChannelChange = (channel) => {
+    setActiveChannelId(channel.id);
+    setActiveChannelName(channel.name);
+  };
 
   if (!ids || ids.length === 0) {
     return null;
@@ -17,7 +21,7 @@ const ChannelsList = ({ activeChannelId, setActiveChannelId }) => {
       {ids.map((id) => (
         <li key={id} className="nav-item w-100">
           <button
-            onClick={() => setActiveChannelId(entities[id].id)}
+            onClick={() => handleActiveChannelChange(entities[id])}
             type="button"
             className={cn('w-100', 'rounded-0', 'text-start', 'btn', {
               'btn-secondary': id === activeChannelId,

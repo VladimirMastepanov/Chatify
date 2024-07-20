@@ -11,13 +11,14 @@ export const fetchChannels = createAsyncThunk(
   'channels/fetchChannels',
   async (userToken) => {
     const response = await axios.get(routes.channelsPath(), getHeader(userToken));
+    console.log(response.data);
     return response.data;
   },
 );
 
 export const addChannel = createAsyncThunk(
   'channels/addChannel',
-  async (userToken, channelName) => {
+  async ({ userToken, channelName }) => {
     const response = await axios.post(routes.channelsPath(), channelName, getHeader(userToken));
     return response.data;
   },
@@ -25,7 +26,7 @@ export const addChannel = createAsyncThunk(
 
 export const updateChannel = createAsyncThunk(
   'channels/updateChannel',
-  async (userToken, id, newName) => {
+  async ({ userToken, id, newName }) => {
     const response = await axios.patch(routes.channelPathWithId(id), newName, getHeader(userToken));
     return response.data;
   },
@@ -33,7 +34,7 @@ export const updateChannel = createAsyncThunk(
 
 export const removeChannel = createAsyncThunk(
   'channels/removeChannel',
-  async (userToken, id) => {
+  async ({ userToken, id }) => {
     const response = await axios.delete(routes.channelPathWithId(id), getHeader(userToken));
     return response.data;
   },
@@ -51,14 +52,14 @@ const channelsSlice = createSlice({
   name: 'channels',
   initialState,
   reducers: {
-    addOneChannel: (payload) => {
-      channelsAdapter.addOne(payload);
+    addOneChannel: (state, action) => {
+      channelsAdapter.addOne(state, action.payload);
     },
-    removeOneChannel: (payload) => {
-      channelsAdapter.removeOne(payload);
+    removeOneChannel: (state, action) => {
+      channelsAdapter.removeOne(state, action.payload);
     },
-    renameOneChannel: (payload) => {
-      channelsAdapter.updateOne(payload);
+    renameOneChannel: (state, action) => {
+      channelsAdapter.updateOne(state, action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -81,7 +82,7 @@ const channelsSlice = createSlice({
         state.error = null;
       })
       .addCase(addChannel.fulfilled, (state, action) => {
-        channelsAdapter.addOne(action.payload);
+        channelsAdapter.addOne(state, action.payload);
         state.loadingStatus = 'idle';
         state.error = null;
       })
@@ -94,8 +95,8 @@ const channelsSlice = createSlice({
         state.error = null;
       })
       .addCase(updateChannel.fulfilled, (state, action) => {
-        const { id, ...rest } = action.payload;
-        channelsAdapter.updateOne({ id, changes: rest });
+        const { id, ...changes } = action.payload;
+        channelsAdapter.updateOne(state, { id, changes });
         state.loadingStatus = 'idle';
         state.error = null;
       })
@@ -108,7 +109,7 @@ const channelsSlice = createSlice({
         state.error = null;
       })
       .addCase(removeChannel.fulfilled, (state, action) => {
-        channelsAdapter.removeOne(action.payload);
+        channelsAdapter.removeOne(state, action.payload);
         state.loadingStatus = 'idle';
         state.error = null;
       })

@@ -24,7 +24,6 @@ const AppRoutes = ({ isAuthenticated }) => (
 
 const App = () => {
   const isAuthenticated = useSelector(currentTokenSelector);
-  // console.log(isAuthenticated);
 
   const router = createBrowserRouter([
     {
