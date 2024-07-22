@@ -18,8 +18,8 @@ export const fetchChannels = createAsyncThunk(
 
 export const addChannel = createAsyncThunk(
   'channels/addChannel',
-  async ({ userToken, channelName }) => {
-    const response = await axios.post(routes.channelsPath(), channelName, getHeader(userToken));
+  async ({ userToken, newChannel }) => {
+    const response = await axios.post(routes.channelsPath(), newChannel, getHeader(userToken));
     return response.data;
   },
 );

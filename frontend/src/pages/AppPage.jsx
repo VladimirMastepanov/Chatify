@@ -37,7 +37,7 @@ const AppPage = () => {
   return (
     <div className="d-flex flex-column min-vh-100">
       <TopNavigation />
-      <div className="container flex-grow-1 my-4 overflow-hidden rounded shadow    d-flex flex-column">
+      <div className="container flex-grow-1 my-4 overflow-hidden rounded shadow d-flex flex-column">
         <div className="row bg-white flex-grow-1 h-100 flex-md-row">
           <ChannelsColumn
             activeChannelId={activeChannelId}
