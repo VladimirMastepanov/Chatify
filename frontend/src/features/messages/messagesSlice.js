@@ -14,25 +14,25 @@ export const fetchMessages = createAsyncThunk(
 
 export const addMessage = createAsyncThunk(
   'messages/addMessage',
-  async ({ userToken, newMessage }) => {
-    const response = await axios.post(routes.messagesPath(), newMessage, getHeader(userToken));
+  async ({ token, newMessage }) => {
+    const response = await axios.post(routes.messagesPath(), newMessage, getHeader(token));
     return response.data;
   },
 );
 
 export const updateMessage = createAsyncThunk(
   'messages/updateMessage',
-  async ({ userToken, id, newBody }) => {
+  async ({ token, id, newBody }) => {
     const response = await axios
-      .patch(routes.messagesPathWithId(id), newBody, getHeader(userToken));
+      .patch(routes.messagesPathWithId(id), newBody, getHeader(token));
     return response.data;
   },
 );
 
 export const removeMessage = createAsyncThunk(
   'messages/removeMessage',
-  async ({ userToken, id }) => {
-    const response = await axios.delete(routes.messagesPathWithId(id), getHeader(userToken));
+  async ({ token, id }) => {
+    const response = await axios.delete(routes.messagesPathWithId(id), getHeader(token));
     return response.data;
   },
 );

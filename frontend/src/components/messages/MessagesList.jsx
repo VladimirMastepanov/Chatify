@@ -4,10 +4,7 @@ import { messagesSelector } from '../../features/messages/messagesSlice';
 
 const MessagesList = ({ activeChannelId, setMessagesCount }) => {
   const entities = useSelector(messagesSelector.selectEntities);
-  console.log(entities);
   const actualMessages = Object.values(entities).filter((m) => m.channelId === activeChannelId);
-  console.log(actualMessages);
-  console.log(actualMessages.length);
 
   useEffect(() => {
     if (actualMessages) {

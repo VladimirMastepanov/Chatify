@@ -17,12 +17,12 @@ const ModalAddChannel = (props) => {
 
   const f = useFormik({
     onSubmit: () => {
-      const userToken = localStorage.getItem('token');
+      const token = localStorage.getItem('token');
       const newChannel = {
         name: f.values.body,
       };
       f.resetForm();
-      dispatch(addChannel({ userToken, newChannel }));
+      dispatch(addChannel({ token, newChannel }));
       toast.success('Канал создан');
       onHide();
     },

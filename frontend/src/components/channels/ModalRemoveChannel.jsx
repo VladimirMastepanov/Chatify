@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { removeChannel } from '../../features/channels/channelsSlice';
 
 const ModalRemoveChannel = (props) => {
@@ -9,7 +10,8 @@ const ModalRemoveChannel = (props) => {
 
   const handleChannelRemove = () => {
     const token = localStorage.getItem('token');
-    dispatch(removeChannel({ userToken: token, id }));
+    dispatch(removeChannel({ token, id }));
+    toast.success('Канал удален');
     onHide();
   };
 

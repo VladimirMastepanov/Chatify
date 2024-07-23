@@ -7,8 +7,8 @@ const TopNavigation = () => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    localStorage.removeItem('userId');
-    dispatch(clearCredentials);
+    localStorage.removeItem('token');
+    dispatch(clearCredentials());
   };
 
   // useEffect(() => {

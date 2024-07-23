@@ -19,14 +19,14 @@ const AddNewMessageForm = ({ activeChannelId }) => {
     <Formik
       initialValues={{ body: '' }}
       onSubmit={(values, actions) => {
-        const userToken = localStorage.getItem('token');
+        const token = localStorage.getItem('token');
         const newMessage = {
           body: values.body,
           username,
           channelId: activeChannelId,
         };
-        console.log(userToken, newMessage);
-        dispatch(addMessage({ userToken, newMessage }));
+        console.log(token, newMessage);
+        dispatch(addMessage({ token, newMessage }));
         actions.setSubmitting(false);
         actions.resetForm();
       }}

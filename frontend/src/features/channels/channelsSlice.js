@@ -9,8 +9,8 @@ import getHeader from '../../helpers/getHeader';
 
 export const fetchChannels = createAsyncThunk(
   'channels/fetchChannels',
-  async (userToken) => {
-    const response = await axios.get(routes.channelsPath(), getHeader(userToken));
+  async (token) => {
+    const response = await axios.get(routes.channelsPath(), getHeader(token));
     console.log(response.data);
     return response.data;
   },
@@ -18,24 +18,24 @@ export const fetchChannels = createAsyncThunk(
 
 export const addChannel = createAsyncThunk(
   'channels/addChannel',
-  async ({ userToken, newChannel }) => {
-    const response = await axios.post(routes.channelsPath(), newChannel, getHeader(userToken));
+  async ({ token, newChannel }) => {
+    const response = await axios.post(routes.channelsPath(), newChannel, getHeader(token));
     return response.data;
   },
 );
 
 export const updateChannel = createAsyncThunk(
   'channels/updateChannel',
-  async ({ userToken, id, newName }) => {
-    const response = await axios.patch(routes.channelPathWithId(id), newName, getHeader(userToken));
+  async ({ token, id, newName }) => {
+    const response = await axios.patch(routes.channelPathWithId(id), newName, getHeader(token));
     return response.data;
   },
 );
 
 export const removeChannel = createAsyncThunk(
   'channels/removeChannel',
-  async ({ userToken, id }) => {
-    const response = await axios.delete(routes.channelPathWithId(id), getHeader(userToken));
+  async ({ token, id }) => {
+    const response = await axios.delete(routes.channelPathWithId(id), getHeader(token));
     return response.data;
   },
 );

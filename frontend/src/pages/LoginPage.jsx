@@ -37,7 +37,7 @@ const LoginForm = () => {
       initialValues={{ username: '', password: '' }}
       validationSchema={validationSchema}
       onSubmit={async (values, actions) => {
-        dispatch(fetchAuth(values));
+        await dispatch(fetchAuth(values));
         actions.setSubmitting(false);
       }}
     >
@@ -91,7 +91,7 @@ const LoginCard = () => (
       <div className="card-footer p-4">
         <div className="text-center">
           <span>Нет аккаунта?</span>
-          <a href="/">Регистрация</a>
+          <a href="/singup">Регистрация</a>
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 import {
   Modal,
   FormGroup,
@@ -11,16 +12,22 @@ import { updateChannel } from '../../features/channels/channelsSlice';
 
 const ModalRenameChannel = (props) => {
   const dispatch = useDispatch();
-  const { onHide, show, id, name } = props;
+  const {
+    onHide,
+    show,
+    id,
+    name,
+  } = props;
   const inputRef = useRef();
 
   const f = useFormik({
     onSubmit: () => {
-      const userToken = localStorage.getItem('token');
-      const newChannel = {
+      const token = localStorage.getItem('token');
+      const newName = {
         name: f.values.body,
       };
-      dispatch(updateChannel({ id, userToken, newChannel }));
+      dispatch(updateChannel({ id, token, newName }));
+      toast.success('Канал переименован');
       f.resetForm();
       onHide();
     },

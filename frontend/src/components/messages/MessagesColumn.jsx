@@ -5,7 +5,6 @@ import MessagesList from './MessagesList';
 
 const MessagesColumn = ({ activeChannelId, activeChannelName }) => {
   const [messageCount, setMessagesCount] = useState(0);
-  console.log('message Column setMessagesCount={setMessagesCount}');
   return (
     <div className="col p-0 h-100">
       <div className="d-flex flex-column h-100">
