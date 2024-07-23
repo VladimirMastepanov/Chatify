@@ -7,20 +7,7 @@ import {
   FormControl,
   Button,
 } from 'react-bootstrap';
-import { addChannel } from '../../features/channels/channelsSlice';
-
-
-const handleChannelRename = (id, newName) => {
-  const token = localStorage.getItem('token');
-  const data = {
-    id,
-    userToken: token,
-    newName: {
-      name: newName,
-    },
-  };
-  dispatch(updateChannel(data));
-};
+import { updateChannel } from '../../features/channels/channelsSlice';
 
 const ModalRenameChannel = (props) => {
   const dispatch = useDispatch();
@@ -33,18 +20,21 @@ const ModalRenameChannel = (props) => {
       const newChannel = {
         name: f.values.body,
       };
-      dispatch(addChannel({ userToken, newChannel }));
-      f.values.body = '';
+      dispatch(updateChannel({ id, userToken, newChannel }));
+      f.resetForm();
       onHide();
     },
     initialValues: { body: name },
   });
 
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
+    if (inputRef.current && name && show) {
+      f.setValues({ body: name });
+      setTimeout(() => {
+        inputRef.current.select();
+      }, 0);
     }
-  }, []);
+  }, [name]);
 
   return (
     <Modal show={show} onHide={onHide}>
