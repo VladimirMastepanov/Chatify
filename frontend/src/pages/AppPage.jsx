@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { ToastContainer } from 'react-bootstrap';
+import 'react-toastify/dist/ReactToastify.css'
 import { fetchChannels } from '../features/channels/channelsSlice';
 import { fetchMessages } from '../features/messages/messagesSlice';
 import TopNavigation from '../components/TopNavigation';
@@ -50,6 +52,7 @@ const AppPage = () => {
           />
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

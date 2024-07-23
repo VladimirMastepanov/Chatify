@@ -83,12 +83,12 @@ const ChannelsList = ({ activeChannelId, setActiveChannelName, setActiveChannelI
         onHide={onHideModalRemove}
         id={modalId}
       />
-      {/* <ModalRenameChannel
+      <ModalRenameChannel
         show={showModalRename}
         onHide={onHideModalRename}
         id={modalId}
         name={nameForChange}
-      /> */}
+      />
     </ul>
   );
 };

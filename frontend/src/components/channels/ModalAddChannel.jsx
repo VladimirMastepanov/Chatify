@@ -7,6 +7,7 @@ import {
   FormControl,
   Button,
 } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { addChannel } from '../../features/channels/channelsSlice';
 
 const ModalAddChannel = (props) => {
@@ -22,6 +23,7 @@ const ModalAddChannel = (props) => {
       };
       f.resetForm();
       dispatch(addChannel({ userToken, newChannel }));
+      toast.success('Канал создан');
       onHide();
     },
     initialValues: { body: '' },
