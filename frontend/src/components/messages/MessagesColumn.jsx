@@ -10,9 +10,9 @@ const MessagesColumn = ({ activeChannelId, activeChannelName }) => {
       <div className="d-flex flex-column h-100">
         <div className="bg-light mb-4 p-3 shadow-sm small">
           <p className="m-0">
-            <b># {activeChannelName}</b>
+            <b>{`# ${activeChannelName}`}</b>
           </p>
-          <span className="text-muted">{messageCount} messages</span>
+          <span className="text-muted">{`${messageCount} messages`}</span>
         </div>
         <MessagesList activeChannelId={activeChannelId} setMessagesCount={setMessagesCount} />
         <div className="mt-auto px-5 py-3">

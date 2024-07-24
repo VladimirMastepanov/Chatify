@@ -23,7 +23,7 @@ const MessagesList = ({ activeChannelId, setMessagesCount }) => {
           <b>
             {message.username}
           </b>
-          : {message.body}
+          {`: ${message.body}`}
         </div>
       ))}
     </div>
