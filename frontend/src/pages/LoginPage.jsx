@@ -28,7 +28,7 @@ const LoginForm = () => {
       setAuthFailed(null);
       navigate('/');
     } else {
-      setAuthFailed(error);
+      setAuthFailed('Неверные имя пользователя или пароль');
     }
   }, [token, error, navigate]);
 
@@ -42,7 +42,7 @@ const LoginForm = () => {
       }}
     >
       {(props) => (
-        <Form className="w-100" onSubmit={props.handleSubmit}>
+        <Form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={props.handleSubmit}>
           <h1 className="text-center mb-4">Войти</h1>
           <div className="form-floating mb-3">
             <Field
@@ -54,7 +54,6 @@ const LoginForm = () => {
               className={`form-control ${authFailed ? 'is-invalid' : ''}`}
             />
             <label htmlFor="loginUsername">Ваш ник</label>
-            <ErrorMessage name="username" component="div" className="text-danger" />
           </div>
           <div className="form-floating mb-4">
             <Field
@@ -67,10 +66,10 @@ const LoginForm = () => {
               className={`form-control ${authFailed ? 'is-invalid' : ''}`}
             />
             <label htmlFor="loginPassword">Пароль</label>
-            <ErrorMessage name="password" component="div" className="text-danger" />
+            {/* <ErrorMessage name="password" component="div" className="text-danger" /> */}
             {authFailed && <div className="invalid-tooltip alert-danger">{authFailed}</div>}
           </div>
-          <button type="submit" disabled={props.isSubmitting} className="w-100 btn btn-outline-primary">Войти</button>
+          <button type="submit" disabled={props.isSubmitting} className="w-100 mb-3 btn btn-outline-primary">Войти</button>
         </Form>
       )}
     </Formik>
@@ -88,14 +87,14 @@ const LoginCard = () => (
             <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
               <img src="/images/tota.jpeg" className="rounded-circle img-fluid" alt="Войти" />
             </div>
-            <div className="col-12 col-md-6 mt-3 mt-mb-0">
-              <LoginForm />
-            </div>
+
+            <LoginForm />
+
           </div>
 
           <div className="card-footer p-4">
             <div className="text-center">
-              <span>Нет аккаунта?</span>
+              <span>Нет аккаунта? </span>
               <a href="/singup">Регистрация</a>
             </div>
           </div>
