@@ -40,7 +40,7 @@ const SingUpForm = () => {
       validateOnBlur
     >
       {(props) => (
-        <Form className="w-100" onSubmit={props.handleSubmit}>
+        <Form className="w-50" onSubmit={props.handleSubmit}>
           <h1 className="text-center mb-4">Регистрация</h1>
           <div className="form-floating mb-3">
             <Field
@@ -55,7 +55,7 @@ const SingUpForm = () => {
             <label htmlFor="newUsername">Имя пользователя</label>
             {props.touched.username && props.errors.username && <div className="invalid-tooltip alert-danger">{props.errors.username}</div>}
           </div>
-          <div className="form-floating mb-4">
+          <div className="form-floating mb-3">
             <Field
               name="password"
               autoComplete="new-password"
@@ -91,29 +91,28 @@ const SingUpForm = () => {
 };
 
 const SingUpCard = () => (
-  <div className="col-12 col-md-8 col-xxl-6">
-    <div className="card shadow-sm mx-auto">
-      <div className="card-body row p-5">
-        <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-          <img src="/images/avatar_1.jpg" className="rounded-circle img-fluid" alt="Регистрация" />
-        </div>
-        <div className="col-12 col-md-6 mt-3 mt-md-0">
-          <SingUpForm />
+  <div className="container-fluid h-100">
+    <div className="row justify-content-center align-items-center h-100">
+      <div className="col-12 col-md-8 col-xxl-6">
+        <div className="card shadow-sm">
+          <div className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
+            <div>
+              <img src="/images/avatar_1.jpg" className="rounded-circle" alt="Регистрация" />
+            </div>
+            <SingUpForm />
+          </div>
         </div>
       </div>
-
     </div>
   </div>
 );
 
 const SingUpPage = () => (
-  <div className="d-flex flex-column min-vh-100">
+  <div className="d-flex flex-column h-100">
+
     <TopNavigation />
-    <div className="container-fluid d-flex justify-content-center align-items-center flex-grow-1">
-      <div className="row justify-content-center align-items-center w-100">
-        <SingUpCard />
-      </div>
-    </div>
+    <SingUpCard />
+
   </div>
 );
 
