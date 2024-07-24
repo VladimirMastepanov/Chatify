@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import cn from 'classnames';
-import { Dropdown } from 'react-bootstrap';
+import { Dropdown, SplitButton } from 'react-bootstrap';
 import { channelsSelector } from '../../features/channels/channelsSlice';
 import ModalRemoveChannel from './ModalRemoveChannel';
 import ModalRenameChannel from './ModalRenameChannel';

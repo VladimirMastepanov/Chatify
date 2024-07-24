@@ -3,12 +3,11 @@ import {
   Formik,
   Form,
   Field,
-  ErrorMessage,
 } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { fetchAuth, currentTokenSelector, authorizationError } from '../features/authentication/authSlice';
+import { fetchAuth, currentTokenSelector } from '../features/authentication/authSlice';
 import TopNavigation from '../components/TopNavigation';
 
 const validationSchema = yup.object().shape({
@@ -19,24 +18,25 @@ const validationSchema = yup.object().shape({
 const LoginForm = () => {
   const dispatch = useDispatch();
   const token = useSelector(currentTokenSelector);
-  const error = useSelector(authorizationError);
-  const [authFailed, setAuthFailed] = useState(error);
+  const [authFailed, setAuthFailed] = useState(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
       setAuthFailed(null);
       navigate('/');
-    } else {
+    } else if (isSubmitted) {
       setAuthFailed('Неверные имя пользователя или пароль');
     }
-  }, [token, error, navigate]);
+  }, [token, navigate, isSubmitted]);
 
   return (
     <Formik
       initialValues={{ username: '', password: '' }}
       validationSchema={validationSchema}
       onSubmit={async (values, actions) => {
+        setIsSubmitted(true);
         await dispatch(fetchAuth(values));
         actions.setSubmitting(false);
       }}
@@ -66,8 +66,7 @@ const LoginForm = () => {
               className={`form-control ${authFailed ? 'is-invalid' : ''}`}
             />
             <label htmlFor="loginPassword">Пароль</label>
-            {/* <ErrorMessage name="password" component="div" className="text-danger" /> */}
-            {authFailed && <div className="invalid-tooltip alert-danger">{authFailed}</div>}
+            {authFailed && isSubmitted && <div className="invalid-tooltip alert-danger">{authFailed}</div>}
           </div>
           <button type="submit" disabled={props.isSubmitting} className="w-100 mb-3 btn btn-outline-primary">Войти</button>
         </Form>
@@ -105,8 +104,6 @@ const LoginCard = () => (
     </div>
   </div>
 );
-
-const contClass = 'd-flex justify-content-center align-items-center flex-grow-1';
 
 const LoginPage = () => (
   <div className="d-flex flex-column h-100">
