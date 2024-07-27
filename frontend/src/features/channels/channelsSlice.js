@@ -11,7 +11,6 @@ export const fetchChannels = createAsyncThunk(
   'channels/fetchChannels',
   async (token) => {
     const response = await axios.get(routes.channelsPath(), getHeader(token));
-    console.log(response.data);
     return response.data;
   },
 );

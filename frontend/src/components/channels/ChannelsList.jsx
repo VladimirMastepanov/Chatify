@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import cn from 'classnames';
-import { Dropdown, SplitButton } from 'react-bootstrap';
+import { Dropdown } from 'react-bootstrap';
 import { channelsSelector } from '../../features/channels/channelsSlice';
 import ModalRemoveChannel from './ModalRemoveChannel';
 import ModalRenameChannel from './ModalRenameChannel';
@@ -16,6 +16,11 @@ const ChannelsList = ({ activeChannelId, setActiveChannelName, setActiveChannelI
 
   const onHideModalRename = () => setShowModalRename(false);
   const onHideModalRemove = () => setShowModalRemove(false);
+
+  const setDefaultActiveChannel = () => {
+    setActiveChannelId(1);
+    setActiveChannelId('general');
+  };
 
   const handleActiveChannelChange = (channel) => {
     setActiveChannelId(channel.id);
@@ -82,12 +87,13 @@ const ChannelsList = ({ activeChannelId, setActiveChannelName, setActiveChannelI
         show={showModalRemove}
         onHide={onHideModalRemove}
         id={modalId}
+        setActiveChannel={setDefaultActiveChannel}
       />
       <ModalRenameChannel
         show={showModalRename}
         onHide={onHideModalRename}
         id={modalId}
-        name={nameForChange}
+        oldName={nameForChange}
       />
     </ul>
   );

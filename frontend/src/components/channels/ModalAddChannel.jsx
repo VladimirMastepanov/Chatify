@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Modal, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
+import {
+  Formik, Form, Field, ErrorMessage,
+} from 'formik';
 import { addChannel, channelsSelector } from '../../features/channels/channelsSlice';
 
 const validationSchema = yup.object().shape({
@@ -11,16 +13,12 @@ const validationSchema = yup.object().shape({
 });
 
 const ModalAddChannel = ({ onHide, show }) => {
-  // const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const inputRef = useRef();
   const entities = useSelector(channelsSelector.selectEntities);
   const channelsNames = Object.values(entities).map((channel) => channel.name);
 
   useEffect(() => {
-    if (channelsNames.length > 0) {
-      console.log(channelsNames);
-    }
     if (inputRef.current) {
       inputRef.current.focus();
     }
@@ -40,7 +38,6 @@ const ModalAddChannel = ({ onHide, show }) => {
           onSubmit={async (values, actions) => {
             console.log(channelsNames);
             if (!channelsNames.includes(values.name)) {
-              // setError(null);
               const token = localStorage.getItem('token');
               const newChannel = { name: values.name };
               try {
@@ -67,13 +64,14 @@ const ModalAddChannel = ({ onHide, show }) => {
                 value={props.values.name}
                 onChange={props.handleChange}
                 onBlur={props.handleBlur}
+                disabled={props.isSubmitting}
                 className={`mb-2 form-control ${props.errors.name ? 'is-invalid' : ''}`}
               />
               <label className="visually-hidden" htmlFor="name">Имя канала</label>
               <ErrorMessage name="name" component="div" className="invalid-feedback" />
               <div className="d-flex justify-content-end">
-                <Button type="button" className="me-2 btn btn-secondary" onClick={onHide} disabled={props.isSubmitting}>Отменить</Button>
-                <Button type="submit" className="btn btn-primary" disabled={props.isSubmitting}>Отправить</Button>
+                <Button type="button" className="me-2 btn btn-secondary" onClick={onHide}>Отменить</Button>
+                <Button type="submit" className="btn btn-primary">Отправить</Button>
               </div>
             </Form>
           )}
