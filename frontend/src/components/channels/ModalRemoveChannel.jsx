@@ -4,13 +4,16 @@ import { Modal, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { removeChannel } from '../../features/channels/channelsSlice';
 
-const ModalRemoveChannel = (props) => {
+const ModalRemoveChannel = ({
+  onHide, show, id, setActiveChannelId, setActiveChannelName,
+}) => {
   const dispatch = useDispatch();
-  const { onHide, show, id } = props;
 
   const handleChannelRemove = () => {
     const token = localStorage.getItem('token');
     dispatch(removeChannel({ token, id }));
+    setActiveChannelId('1');
+    setActiveChannelName('general');
     toast.success('Канал удален');
     onHide();
   };

@@ -10,17 +10,12 @@ const ChannelsList = ({ activeChannelId, setActiveChannelName, setActiveChannelI
   const [showModalRename, setShowModalRename] = useState(false);
   const [showModalRemove, setShowModalRemove] = useState(false);
   const [modalId, setModalId] = useState('');
-  const [nameForChange, setNameForChange] = useState();
+  const [nameForChange, setNameForChange] = useState('');
   const ids = useSelector(channelsSelector.selectIds);
   const entities = useSelector(channelsSelector.selectEntities);
 
   const onHideModalRename = () => setShowModalRename(false);
   const onHideModalRemove = () => setShowModalRemove(false);
-
-  const setDefaultActiveChannel = () => {
-    setActiveChannelId(1);
-    setActiveChannelId('general');
-  };
 
   const handleActiveChannelChange = (channel) => {
     setActiveChannelId(channel.id);
@@ -87,7 +82,8 @@ const ChannelsList = ({ activeChannelId, setActiveChannelName, setActiveChannelI
         show={showModalRemove}
         onHide={onHideModalRemove}
         id={modalId}
-        setActiveChannel={setDefaultActiveChannel}
+        setActiveChannelId={setActiveChannelId}
+        setActiveChannelName={setActiveChannelName}
       />
       <ModalRenameChannel
         show={showModalRename}
