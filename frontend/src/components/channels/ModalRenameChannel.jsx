@@ -58,7 +58,7 @@ const ModalRenameChannel = ({
           }}
         >
           {(props) => (
-            <Form>
+            <Form disabled={props.isSubmitting}>
               <Field
                 className={`mb-2 form-control ${props.errors.newName ? 'is-invalid' : ''}`}
                 required
@@ -66,7 +66,6 @@ const ModalRenameChannel = ({
                 onChange={props.handleChange}
                 onBlur={props.handleBlur}
                 value={props.values.newName}
-                disabled={props.isSubmitting}
                 name="newName"
                 id="newName"
               />

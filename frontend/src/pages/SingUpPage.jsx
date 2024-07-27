@@ -3,7 +3,7 @@ import { Formik, Form, Field } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { fetchSingUp, currentTokenSelector, authorizationError } from '../features/authentication/authSlice';
+import { fetchSingUp, currentTokenSelector, authorizationError} from '../features/authentication/authSlice';
 import TopNavigation from '../components/TopNavigation';
 
 const validationSchema = yup.object().shape({
@@ -22,25 +22,32 @@ const SingUpForm = () => {
     if (token) {
       navigate('/');
     }
-  }, [token, navigate]);
+  }, [token, navigate, error]);
 
   return (
     <Formik
       initialValues={{ username: '', password: '', confirmPassword: '' }}
       validationSchema={validationSchema}
       onSubmit={async (values, actions) => {
-        console.log(values);
         const newUser = {
           username: values.username,
           password: values.password,
         };
-        await dispatch(fetchSingUp(newUser));
+        try {
+          await dispatch(fetchSingUp(newUser));
+        } catch (e) {
+          if (e.message === 'Request failed with status code 409') {
+            actions.setStatus({ nonFieldError: 'Такой пользователь уже существует' });
+          } else {
+            actions.setStatus({ nonFieldError: 'Ошибка регистрации. Попробуйте еще раз' });
+          }
+        }
         actions.setSubmitting(false);
       }}
       validateOnBlur
     >
       {(props) => (
-        <Form className="w-50" onSubmit={props.handleSubmit}>
+        <Form className="w-50" onSubmit={props.handleSubmit} disabled={props.isSubmitting}>
           <h1 className="text-center mb-4">Регистрация</h1>
           <div className="form-floating mb-3">
             <Field
@@ -49,7 +56,7 @@ const SingUpForm = () => {
               required
               placeholder="Имя пользователя"
               id="newUsername"
-              className={`form-control ${props.touched.username && props.errors.username ? 'is-invalid' : ''}`}
+              className={`form-control ${(props.touched.username && props.errors.username) || error ? 'is-invalid' : ''}`}
               onBlur={props.handleBlur}
             />
             <label htmlFor="newUsername">Имя пользователя</label>
@@ -63,7 +70,7 @@ const SingUpForm = () => {
               placeholder="Пароль"
               type="password"
               id="newPassword"
-              className={`form-control ${props.touched.password && props.errors.password ? 'is-invalid' : ''}`}
+              className={`form-control ${(props.touched.password && props.errors.password) || error ? 'is-invalid' : ''}`}
               onBlur={props.handleBlur}
             />
             <label htmlFor="newPassword">Пароль</label>
@@ -77,13 +84,14 @@ const SingUpForm = () => {
               placeholder="Подтвердите пароль"
               type="password"
               id="newPasswordConfirmation"
-              className={`form-control ${props.touched.confirmPassword && props.errors.confirmPassword ? 'is-invalid' : ''}`}
+              className={`form-control ${(props.touched.confirmPassword && props.errors.confirmPassword) || error ? 'is-invalid' : ''}`}
               onBlur={props.handleBlur}
             />
             <label htmlFor="newPasswordConfirmation">Подтвердите пароль</label>
             {props.errors.confirmPassword && props.touched.confirmPassword && <div className="invalid-tooltip alert-danger">{props.errors.confirmPassword}</div>}
+            {props.status && props.status.nonFieldError && <div className="invalid-tooltip alert-danger">{props.status.nonFieldError}</div>}
           </div>
-          <button type="submit" disabled={props.isSubmitting} className="w-100 btn btn-outline-primary">Зарегестрироваться</button>
+          <button type="submit" className="w-100 btn btn-outline-primary">Зарегестрироваться</button>
         </Form>
       )}
     </Formik>
@@ -109,10 +117,8 @@ const SingUpCard = () => (
 
 const SingUpPage = () => (
   <div className="d-flex flex-column h-100">
-
     <TopNavigation />
     <SingUpCard />
-
   </div>
 );
 

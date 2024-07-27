@@ -55,7 +55,7 @@ const ModalAddChannel = ({ onHide, show }) => {
           }}
         >
           {(props) => (
-            <Form onSubmit={props.handleSubmit}>
+            <Form onSubmit={props.handleSubmit} disabled={props.isSubmitting}>
               <Field
                 innerRef={inputRef}
                 required
@@ -64,7 +64,6 @@ const ModalAddChannel = ({ onHide, show }) => {
                 value={props.values.name}
                 onChange={props.handleChange}
                 onBlur={props.handleBlur}
-                disabled={props.isSubmitting}
                 className={`mb-2 form-control ${props.errors.name ? 'is-invalid' : ''}`}
               />
               <label className="visually-hidden" htmlFor="name">Имя канала</label>

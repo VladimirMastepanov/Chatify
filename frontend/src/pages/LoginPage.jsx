@@ -42,7 +42,7 @@ const LoginForm = () => {
       }}
     >
       {(props) => (
-        <Form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={props.handleSubmit}>
+        <Form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={props.handleSubmit} disabled={props.isSubmitting}>
           <h1 className="text-center mb-4">Войти</h1>
           <div className="form-floating mb-3">
             <Field
@@ -68,7 +68,7 @@ const LoginForm = () => {
             <label htmlFor="loginPassword">Пароль</label>
             {authFailed && isSubmitted && <div className="invalid-tooltip alert-danger">{authFailed}</div>}
           </div>
-          <button type="submit" disabled={props.isSubmitting} className="w-100 mb-3 btn btn-outline-primary">Войти</button>
+          <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Войти</button>
         </Form>
       )}
     </Formik>
