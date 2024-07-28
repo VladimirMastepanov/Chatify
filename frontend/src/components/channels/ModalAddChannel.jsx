@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import {
@@ -9,16 +10,17 @@ import {
 import { addChannel, channelsSelector } from '../../features/channels/channelsSlice';
 import { currentTokenSelector } from '../../features/authentication/authSlice';
 
-const validationSchema = yup.object().shape({
-  name: yup.string().min(3, 'От 3 до 20 символов').max(20, 'От 3 до 20 символов').required('Обязательное поле'),
-});
-
 const ModalAddChannel = ({ onHide, show }) => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const token = useSelector(currentTokenSelector);
   const inputRef = useRef();
   const entities = useSelector(channelsSelector.selectEntities);
   const channelsNames = Object.values(entities).map((channel) => channel.name);
+
+  const validationSchema = yup.object().shape({
+    name: yup.string().min(3, t('lengthLimits')).max(20, t('lengthLimits')).required(t('requiredField')),
+  });
 
   useEffect(() => {
     if (inputRef.current) {
@@ -29,7 +31,7 @@ const ModalAddChannel = ({ onHide, show }) => {
   return (
     <Modal show={show} onHide={onHide} className="modal-dialog-centered">
       <Modal.Header closeButton>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>{t('addChannel')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -40,18 +42,17 @@ const ModalAddChannel = ({ onHide, show }) => {
           onSubmit={async (values, actions) => {
             console.log(channelsNames);
             if (!channelsNames.includes(values.name)) {
-              // const token = localStorage.getItem('token');
               const newChannel = { name: values.name };
               try {
                 await dispatch(addChannel({ token, newChannel }));
-                toast.success('Канал создан');
+                toast.success(t('channelCreated'));
                 actions.resetForm();
                 onHide();
               } catch (e) {
-                toast.error(e.message);
+                toast.error(t('registrationError'));
               }
             } else {
-              actions.setFieldError('name', 'Должно быть уникальным');
+              actions.setFieldError('name', t('mustBeUnique'));
             }
             actions.setSubmitting(false);
           }}
@@ -68,11 +69,11 @@ const ModalAddChannel = ({ onHide, show }) => {
                 onBlur={props.handleBlur}
                 className={`mb-2 form-control ${props.errors.name ? 'is-invalid' : ''}`}
               />
-              <label className="visually-hidden" htmlFor="name">Имя канала</label>
+              <label className="visually-hidden" htmlFor="name">{t('channelName')}</label>
               <ErrorMessage name="name" component="div" className="invalid-feedback" />
               <div className="d-flex justify-content-end">
-                <Button type="button" className="me-2 btn btn-secondary" onClick={onHide}>Отменить</Button>
-                <Button type="submit" className="btn btn-primary">Отправить</Button>
+                <Button type="button" className="me-2 btn btn-secondary" onClick={onHide}>{t('cancel')}</Button>
+                <Button type="submit" className="btn btn-primary">{t('sent')}</Button>
               </div>
             </Form>
           )}

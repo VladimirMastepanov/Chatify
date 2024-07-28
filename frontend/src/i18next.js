@@ -7,16 +7,48 @@ i18next
     resources: {
       ru: {
         translation: {
+          hexletChat: 'Hexlet Chat',
+
           userName: 'Имя пользователя',
+          login: 'Ваш ник',
           password: 'Пароль',
           passwordConfirmation: 'Подтвердите пароль',
+          registration: 'Регистрация',
           register: 'Зарегестрироваться',
+          enter: 'Войти',
+          exit: 'Выйти',
+          noAccount: 'Нет аккаунта?',
+          channels: 'Каналы',
+          channelName: 'Имя канала',
+          channelManage: 'Управление каналом',
+          rename: 'Переименовать',
+          delete: 'Удалить',
+          addChannel: 'Добавить канал',
+          renameChannel: 'Переименовать канал',
+          deleteChannel: 'Удалить канал',
+          newChannelName: 'Новое имя канала',
+          channelCreated: 'Канал создан',
+          channelDeleted: 'Канал удален',
+          channelRenamed: 'Канал переименован',
+          sent: 'Отправить',
+          cancel: 'Отменить',
+          sure: 'Уверенны?',
+          plus: '+',
+
+          message_one: '{{count}} сообщение',
+          message_few: '{{count}} сообщения',
+          message_zero: '{{count}} сообщений',
+          message_many: '{{count}} сообщений',
+
+          incorrectLoginInformation: 'Неверные имя пользователя или пароль',
+          minLength: 'Не менее 6 символов',
           lengthLimits: 'От 3 до 20 символов',
           requiredField: 'Обязательное поле',
           passwordsMustMatch: 'Пароли должны совпадать',
           requiredConfirmation: 'Подтверждение пароля обязательно',
           existingUser: 'Такой пользователь уже существует',
-          registrationError: 'Ошибка регистрации',
+          registrationError: 'Ошибка соединения',
+          mustBeUnique: 'Должно быть уникальным',
         },
       },
     },
@@ -25,6 +57,7 @@ i18next
     interpolation: {
       escapeValue: false,
     },
+    pluralSeparator: '_',
   });
 
-export default i18n;
+export default i18next;

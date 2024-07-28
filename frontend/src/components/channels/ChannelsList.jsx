@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import { Dropdown } from 'react-bootstrap';
 import { channelsSelector } from '../../features/channels/channelsSlice';
@@ -13,6 +14,7 @@ const ChannelsList = ({ activeChannelId, setActiveChannelName, setActiveChannelI
   const [nameForChange, setNameForChange] = useState('');
   const ids = useSelector(channelsSelector.selectIds);
   const entities = useSelector(channelsSelector.selectEntities);
+  const { t } = useTranslation();
 
   const onHideModalRename = () => setShowModalRename(false);
   const onHideModalRemove = () => setShowModalRemove(false);
@@ -64,12 +66,12 @@ const ChannelsList = ({ activeChannelId, setActiveChannelName, setActiveChannelI
                     variant={isActive ? 'secondary' : 'light'}
                     className="rounded-0 rounded-end dropdown-toggle-split"
                   >
-                    <span className="visually-hidden">Управление каналом</span>
+                    <span className="visually-hidden">{t('channelManage')}</span>
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => activateModalRename(id, channel.name)} href="#">Переименовать</Dropdown.Item>
-                    <Dropdown.Item onClick={() => activateModalRemove(id)} href="#">Удалить</Dropdown.Item>
+                    <Dropdown.Item onClick={() => activateModalRename(id, channel.name)} href="#">{t('rename')}</Dropdown.Item>
+                    <Dropdown.Item onClick={() => activateModalRemove(id)} href="#">{t('delete')}</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               )}

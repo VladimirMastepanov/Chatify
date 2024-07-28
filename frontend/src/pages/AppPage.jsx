@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ToastContainer } from 'react-bootstrap';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 import { fetchChannels } from '../features/channels/channelsSlice';
 import { fetchMessages } from '../features/messages/messagesSlice';
 import TopNavigation from '../components/TopNavigation';
@@ -16,10 +16,15 @@ const AppPage = () => {
   const [activeChannelName, setActiveChannelName] = useState('general');
   const userToken = useSelector(currentTokenSelector);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
-    dispatch(fetchChannels(userToken));
-    dispatch(fetchMessages(userToken));
+    try {
+      dispatch(fetchChannels(userToken));
+      dispatch(fetchMessages(userToken));
+    } catch (e) {
+      toast.error(t('registrationError'));
+    }
 
     socket.connect();
     dispatch(setConnected());
@@ -49,11 +54,6 @@ const AppPage = () => {
           />
         </div>
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        pauseOnFocusLoss
-      />
     </div>
   );
 };
