@@ -7,7 +7,6 @@ const TopNavigation = () => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
     dispatch(clearCredentials());
   };
 

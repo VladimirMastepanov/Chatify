@@ -7,6 +7,7 @@ import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
 import { addChannel, channelsSelector } from '../../features/channels/channelsSlice';
+import { currentTokenSelector } from '../../features/authentication/authSlice';
 
 const validationSchema = yup.object().shape({
   name: yup.string().min(3, 'От 3 до 20 символов').max(20, 'От 3 до 20 символов').required('Обязательное поле'),
@@ -14,6 +15,7 @@ const validationSchema = yup.object().shape({
 
 const ModalAddChannel = ({ onHide, show }) => {
   const dispatch = useDispatch();
+  const token = useSelector(currentTokenSelector);
   const inputRef = useRef();
   const entities = useSelector(channelsSelector.selectEntities);
   const channelsNames = Object.values(entities).map((channel) => channel.name);
@@ -38,7 +40,7 @@ const ModalAddChannel = ({ onHide, show }) => {
           onSubmit={async (values, actions) => {
             console.log(channelsNames);
             if (!channelsNames.includes(values.name)) {
-              const token = localStorage.getItem('token');
+              // const token = localStorage.getItem('token');
               const newChannel = { name: values.name };
               try {
                 await dispatch(addChannel({ token, newChannel }));

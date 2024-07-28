@@ -2,11 +2,12 @@ import React, { useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { addMessage } from '../../features/messages/messagesSlice';
-import { currentUsernameSelector } from '../../features/authentication/authSlice';
+import { currentUsernameSelector, currentTokenSelector } from '../../features/authentication/authSlice';
 
 const AddNewMessageForm = ({ activeChannelId }) => {
   const dispatch = useDispatch();
   const username = useSelector(currentUsernameSelector);
+  const token = useSelector(currentTokenSelector);
   const inputRef = useRef();
 
   useEffect(() => {
@@ -19,7 +20,7 @@ const AddNewMessageForm = ({ activeChannelId }) => {
     <Formik
       initialValues={{ body: '' }}
       onSubmit={(values, actions) => {
-        const token = localStorage.getItem('token');
+        // const token = localStorage.getItem('token');
         const newMessage = {
           body: values.body,
           username,

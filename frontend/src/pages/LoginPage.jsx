@@ -10,17 +10,17 @@ import * as yup from 'yup';
 import { fetchAuth, currentTokenSelector } from '../features/authentication/authSlice';
 import TopNavigation from '../components/TopNavigation';
 
-const validationSchema = yup.object().shape({
-  username: yup.string().required('Username is required'),
-  password: yup.string().min(3).required('Password is required'),
-});
-
 const LoginForm = () => {
   const dispatch = useDispatch();
   const token = useSelector(currentTokenSelector);
   const [authFailed, setAuthFailed] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const navigate = useNavigate();
+
+  const validationSchema = yup.object().shape({
+    username: yup.string().required('Username is required'),
+    password: yup.string().min(3).required('Password is required'),
+  });
 
   useEffect(() => {
     if (token) {
@@ -94,7 +94,7 @@ const LoginCard = () => (
           <div className="card-footer p-4">
             <div className="text-center">
               <span>Нет аккаунта? </span>
-              <a href="/singup">Регистрация</a>
+              <a href="/signup">Регистрация</a>
             </div>
           </div>
 

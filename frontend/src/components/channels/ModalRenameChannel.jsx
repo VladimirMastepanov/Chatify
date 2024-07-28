@@ -7,6 +7,7 @@ import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
 import { updateChannel, channelsSelector } from '../../features/channels/channelsSlice';
+import { currentSocketConnectionStatus } from '../../features/socket/socketSlice';
 
 const validationSchema = yup.object().shape({
   newName: yup.string().min(3, 'От 3 до 20 символов').max(20, 'От 3 до 20 символов').required('Обязательное поле'),
@@ -16,6 +17,7 @@ const ModalRenameChannel = ({
   onHide, show, id, oldName,
 }) => {
   const dispatch = useDispatch();
+  const token = useSelector(currentSocketConnectionStatus);
   const inputRef = useRef();
   const entities = useSelector(channelsSelector.selectEntities);
   const channelsNames = Object.values(entities).map((channel) => channel.name);
@@ -41,7 +43,7 @@ const ModalRenameChannel = ({
           validationSchema={validationSchema}
           onSubmit={async (values, actions) => {
             if (!channelsNames.includes(values.newName)) {
-              const token = localStorage.getItem('token');
+              // const token = localStorage.getItem('token');
               const newName = { name: values.newName };
               try {
                 await dispatch(updateChannel({ id, token, newName }));

@@ -2,21 +2,23 @@ import React, { useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
-import { fetchSingUp, currentTokenSelector, authorizationError} from '../features/authentication/authSlice';
+import { fetchSignUp, currentTokenSelector, authorizationError } from '../features/authentication/authSlice';
 import TopNavigation from '../components/TopNavigation';
 
-const validationSchema = yup.object().shape({
-  username: yup.string().min(3, 'От 3 до 20 символов').max(20, 'От 3 до 20 символов').required('Обязательное поле'),
-  password: yup.string().min(6, 'Не менее 6 символов').required('Обязательное поле'),
-  confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Пароли должны совпадать').required('Подтверждение пароля обязательно'),
-});
-
-const SingUpForm = () => {
+const SignUpForm = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const token = useSelector(currentTokenSelector);
   const error = useSelector(authorizationError);
   const navigate = useNavigate();
+
+  const validationSchema = yup.object().shape({
+    username: yup.string().min(3, 'От 3 до 20 символов').max(20, 'От 3 до 20 символов').required('Обязательное поле'),
+    password: yup.string().min(6, 'Не менее 6 символов').required('Обязательное поле'),
+    confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Пароли должны совпадать').required('Подтверждение пароля обязательно'),
+  });
 
   useEffect(() => {
     if (token) {
@@ -34,7 +36,7 @@ const SingUpForm = () => {
           password: values.password,
         };
         try {
-          await dispatch(fetchSingUp(newUser));
+          await dispatch(fetchSignUp(newUser));
         } catch (e) {
           if (e.message === 'Request failed with status code 409') {
             actions.setStatus({ nonFieldError: 'Такой пользователь уже существует' });
@@ -98,7 +100,7 @@ const SingUpForm = () => {
   );
 };
 
-const SingUpCard = () => (
+const SignUpCard = () => (
   <div className="container-fluid h-100">
     <div className="row justify-content-center align-items-center h-100">
       <div className="col-12 col-md-8 col-xxl-6">
@@ -107,7 +109,7 @@ const SingUpCard = () => (
             <div>
               <img src="/images/avatar_1.jpg" className="rounded-circle" alt="Регистрация" />
             </div>
-            <SingUpForm />
+            <SignUpForm />
           </div>
         </div>
       </div>
@@ -115,11 +117,11 @@ const SingUpCard = () => (
   </div>
 );
 
-const SingUpPage = () => (
+const SignUpPage = () => (
   <div className="d-flex flex-column h-100">
     <TopNavigation />
-    <SingUpCard />
+    <SignUpCard />
   </div>
 );
 
-export default SingUpPage;
+export default SignUpPage;

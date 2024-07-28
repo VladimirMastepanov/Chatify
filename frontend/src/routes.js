@@ -2,7 +2,7 @@ const apiPath = '/api/v1';
 
 export default {
   loginPath: () => [apiPath, 'login'].join('/'),
-  singUpPath: () => [apiPath, 'signup'].join('/'),
+  signUpPath: () => [apiPath, 'signup'].join('/'),
   channelsPath: () => [apiPath, 'channels'].join('/'),
   channelPathWithId: (id) => [apiPath, `channels/${id}`].join('/'),
   messagesPath: () => [apiPath, 'messages'].join('/'),

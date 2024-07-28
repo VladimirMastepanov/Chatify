@@ -51,8 +51,8 @@ const AppPage = () => {
       </div>
       <ToastContainer
         position="top-right"
-        // autoClose={5000}
-        // pauseOnFocusLoss
+        autoClose={5000}
+        pauseOnFocusLoss
       />
     </div>
   );

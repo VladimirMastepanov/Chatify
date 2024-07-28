@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 import { currentTokenSelector } from './features/authentication/authSlice';
 import Spinner from './components/Spinner';
-import SingUpPage from './pages/SingUpPage';
+import SignUpPage from './pages/SignUpPage';
 
 const AppPage = React.lazy(() => import('./pages/AppPage'));
 const LoginPage = React.lazy(() => import('./pages/LoginPage'));
@@ -19,7 +19,7 @@ const AppRoutes = ({ isAuthenticated }) => (
   <Routes>
     <Route path="/" element={isAuthenticated ? <AppPage /> : <Navigate to="/login" />} />
     <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />} />
-    <Route path="/singup" element={<SingUpPage />} />
+    <Route path="/signup" element={<SignUpPage />} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 );
@@ -53,10 +53,10 @@ const App = () => {
       ),
     },
     {
-      path: '/singup',
+      path: '/signup',
       element: (
         <Suspense fallback={<Spinner />}>
-          <SingUpPage />
+          <SignUpPage />
         </Suspense>
       ),
     },
