@@ -8,14 +8,14 @@ import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
 import { updateChannel, channelsSelector } from '../../features/channels/channelsSlice';
-import { currentSocketConnectionStatus } from '../../features/socket/socketSlice';
+import { currentTokenSelector } from '../../features/authentication/authSlice';
 
 const ModalRenameChannel = ({
   onHide, show, id, oldName,
 }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const token = useSelector(currentSocketConnectionStatus);
+  const token = useSelector(currentTokenSelector);
   const inputRef = useRef();
   const entities = useSelector(channelsSelector.selectEntities);
   const channelsNames = Object.values(entities).map((channel) => channel.name);
@@ -45,7 +45,6 @@ const ModalRenameChannel = ({
           validationSchema={validationSchema}
           onSubmit={async (values, actions) => {
             if (!channelsNames.includes(values.newName)) {
-              // const token = localStorage.getItem('token');
               const newName = { name: values.newName };
               try {
                 dispatch(updateChannel({ id, token, newName }));
@@ -53,7 +52,7 @@ const ModalRenameChannel = ({
                 actions.resetForm();
                 onHide();
               } catch (e) {
-                toast.error(t('registrationError'));
+                toast.error(t('connectionError'));
               }
             } else {
               actions.setFieldError('newName', t('mustBeUnique'));

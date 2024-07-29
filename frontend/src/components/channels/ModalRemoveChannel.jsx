@@ -20,7 +20,7 @@ const ModalRemoveChannel = ({
       toast.success(t('channelDeleted'));
       onHide();
     } catch (e) {
-      toast.error(t('registrationError'));
+      toast.error(t('connectionError'));
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Formik,
   Form,
@@ -9,43 +9,47 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
-import { fetchAuth, currentTokenSelector } from '../features/authentication/authSlice';
+import { fetchAuth, currentTokenSelector, authorizationError } from '../features/authentication/authSlice';
 import TopNavigation from '../components/TopNavigation';
 
 const LoginForm = () => {
+  const inputRef = useRef();
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const token = useSelector(currentTokenSelector);
+  const authError = useSelector(authorizationError);
   const [authFailed, setAuthFailed] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const navigate = useNavigate();
 
   const validationSchema = yup.object().shape({
     username: yup.string().required(),
-    password: yup.string().min(3).required(),
+    password: yup.string().required(),
   });
 
   useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
     if (token) {
       setAuthFailed(null);
       navigate('/');
-    } else if (isSubmitted) {
+    } else if (authError === 'Network Error') {
+      console.log(authError);
+      toast.error(t('connectionError'));
+    } else if (authError === 'Request failed with status code 401') {
       setAuthFailed(t('incorrectLoginInformation'));
     }
-  }, [token, navigate, isSubmitted]);
+  }, [token, navigate, authError, inputRef, authFailed, t]);
 
   return (
     <Formik
       initialValues={{ username: '', password: '' }}
       validationSchema={validationSchema}
       onSubmit={async (values, actions) => {
-        try {
-          setIsSubmitted(true);
-          dispatch(fetchAuth(values));
-          actions.setSubmitting(false);
-        } catch (e) {
-          toast.error(t('registrationError'));
-        }
+        setIsSubmitted(true);
+        dispatch(fetchAuth(values));
+        actions.setSubmitting(false);
       }}
     >
       {(props) => (
@@ -55,6 +59,7 @@ const LoginForm = () => {
             <Field
               name="username"
               autoComplete="username"
+              innerRef={inputRef}
               required
               placeholder={t('login')}
               id="loginUsername"
@@ -96,14 +101,14 @@ const LoginCard = () => {
               <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
                 <img src="/images/tota.jpeg" className="rounded-circle img-fluid" alt="Войти" />
               </div>
-
               <LoginForm />
-
             </div>
 
             <div className="card-footer p-4">
               <div className="text-center">
-                <span>{t('noAccount')} </span>
+                <span>
+                  {t('noAccount')}
+                </span>
                 <a href="/signup">{t('registration')}</a>
               </div>
             </div>

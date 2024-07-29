@@ -49,7 +49,7 @@ const ModalAddChannel = ({ onHide, show }) => {
                 actions.resetForm();
                 onHide();
               } catch (e) {
-                toast.error(t('registrationError'));
+                toast.error(t('connectionError'));
               }
             } else {
               actions.setFieldError('name', t('mustBeUnique'));

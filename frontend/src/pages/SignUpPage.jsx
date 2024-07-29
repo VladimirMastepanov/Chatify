@@ -42,8 +42,8 @@ const SignUpForm = () => {
           if (e.message === 'Request failed with status code 409') {
             actions.setStatus({ nonFieldError: t('existingUser') });
           } else {
-            actions.setStatus({ nonFieldError: t('registrationError') });
-            toast.error('registrationError');
+            actions.setStatus({ nonFieldError: t('connectionError') });
+            toast.error('connectionError');
           }
         }
         actions.setSubmitting(false);

@@ -23,7 +23,7 @@ const AppPage = () => {
       dispatch(fetchChannels(userToken));
       dispatch(fetchMessages(userToken));
     } catch (e) {
-      toast.error(t('registrationError'));
+      toast.error(t('connectionError'));
     }
 
     socket.connect();
@@ -36,7 +36,7 @@ const AppPage = () => {
     return () => {
       socket.disconnect();
     };
-  }, [userToken, dispatch]);
+  }, [userToken, dispatch, t]);
 
   return (
     <div className="d-flex flex-column h-100">
