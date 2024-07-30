@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { Formik, Form, Field } from 'formik';
+import leoProfanity from 'leo-profanity';
 import { addMessage } from '../../features/messages/messagesSlice';
 import { currentUsernameSelector, currentTokenSelector } from '../../features/authentication/authSlice';
 
@@ -23,8 +24,9 @@ const AddNewMessageForm = ({ activeChannelId }) => {
     <Formik
       initialValues={{ body: '' }}
       onSubmit={(values, actions) => {
+        const cleanText = leoProfanity.clean(values.body);
         const newMessage = {
-          body: values.body,
+          body: cleanText,
           username,
           channelId: activeChannelId,
         };
