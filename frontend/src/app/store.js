@@ -6,7 +6,7 @@ import socketReducer from '../features/socket/socketSlice';
 import loadPrafanityDictionary from './leoProfanityThunk';
 import middlewares from './middlewares/index';
 
-export default configureStore({
+const store = configureStore({
   reducer: {
     auth: authReducer,
     channels: channelsReducer,
@@ -15,3 +15,7 @@ export default configureStore({
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(middlewares),
 });
+
+store.dispatch(loadPrafanityDictionary());
+
+export default store;
