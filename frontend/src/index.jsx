@@ -12,9 +12,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import rollbar from './rollbar';
-
+// import rollbar from './rollbar';
 import './i18next';
+
+const rollbar = {
+  accessToken: '6f9323de3cee497f9d6c4b9656255523',
+  environment: 'testenv',
+};
 
 const root = ReactDOM.createRoot(document.getElementById('chat'));
 root.render(
