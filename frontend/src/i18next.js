@@ -35,6 +35,7 @@ i18next
           cancel: 'Отменить',
           sure: 'Уверенны?',
           plus: '+',
+          badWord: 'Нельзя использовать такое имя',
 
           message_one: '{{count}} сообщение',
           message_few: '{{count}} сообщения',

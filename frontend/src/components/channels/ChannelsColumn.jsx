@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import ChannelsList from './ChannelsList';
 import ModalAddChannel from './ModalAddChannel';
+import ChannelsList from './ChannelsList';
 
 const ChannelsColumn = ({ activeChannelId, setActiveChannelId, setActiveChannelName }) => {
   const [showModal, setShowModal] = useState(false);

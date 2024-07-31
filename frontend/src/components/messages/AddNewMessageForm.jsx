@@ -1,11 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { Formik, Form, Field } from 'formik';
 import leoProfanity from 'leo-profanity';
-import { addMessage } from '../../features/messages/messagesSlice';
+import { toast } from 'react-toastify';
 import { currentUsernameSelector, currentTokenSelector } from '../../features/authentication/authSlice';
+import { addMessage } from '../../features/messages/messagesSlice';
 
 const AddNewMessageForm = ({ activeChannelId }) => {
   const dispatch = useDispatch();

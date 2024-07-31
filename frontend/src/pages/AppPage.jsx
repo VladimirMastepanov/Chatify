@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { setConnected, setDisconnected } from '../features/socket/socketSlice';
+import { currentTokenSelector } from '../features/authentication/authSlice';
 import { fetchChannels } from '../features/channels/channelsSlice';
 import { fetchMessages } from '../features/messages/messagesSlice';
-import TopNavigation from '../components/TopNavigation';
-import { currentTokenSelector } from '../features/authentication/authSlice';
 import ChannelsColumn from '../components/channels/ChannelsColumn';
 import MessagesColumn from '../components/messages/MessagesColumn';
+import TopNavigation from '../components/TopNavigation';
 import socket from '../socket';
-import { setConnected, setDisconnected } from '../features/socket/socketSlice';
 
 const AppPage = () => {
   const [activeChannelId, setActiveChannelId] = useState('1');

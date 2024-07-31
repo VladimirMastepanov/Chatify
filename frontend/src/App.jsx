@@ -8,8 +8,8 @@ import {
   Navigate,
 } from 'react-router-dom';
 import { currentTokenSelector } from './features/authentication/authSlice';
-import Spinner from './components/Spinner';
 import SignUpPage from './pages/SignUpPage';
+import Spinner from './components/Spinner';
 
 const AppPage = React.lazy(() => import('./pages/AppPage'));
 const LoginPage = React.lazy(() => import('./pages/LoginPage'));

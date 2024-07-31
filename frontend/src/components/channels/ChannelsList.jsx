@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import cn from 'classnames';
 import { Dropdown } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import cn from 'classnames';
 import { channelsSelector } from '../../features/channels/channelsSlice';
 import ModalRemoveChannel from './ModalRemoveChannel';
 import ModalRenameChannel from './ModalRenameChannel';

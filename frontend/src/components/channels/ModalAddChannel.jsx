@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import looProfanity from 'leo-profanity';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import {
@@ -40,8 +41,10 @@ const ModalAddChannel = ({ onHide, show }) => {
           initialValues={{ name: '' }}
           validationSchema={validationSchema}
           onSubmit={async (values, actions) => {
-            console.log(channelsNames);
-            if (!channelsNames.includes(values.name)) {
+            const isInvalidName = looProfanity.check(values.name);
+            if (isInvalidName) {
+              actions.setFieldError(t('badWord'));
+            } else if (!channelsNames.includes(values.name)) {
               const newChannel = { name: values.name };
               try {
                 await dispatch(addChannel({ token, newChannel }));
