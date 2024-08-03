@@ -26,6 +26,14 @@ const AppPage = () => {
       toast.error(t('connectionError'));
     }
 
+    // try {
+    //   throw new Error('Test error for Rollbar');
+    // } catch (error) {
+    //   Rollbar.error(error);
+    // }
+
+    // Rollbar.info('Test message from application');
+
     socket.connect();
     dispatch(setConnected());
 
