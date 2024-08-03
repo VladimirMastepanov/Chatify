@@ -22,20 +22,20 @@ const rollbar = {
 
 const root = ReactDOM.createRoot(document.getElementById('chat'));
 root.render(
-  <React.StrictMode>
-    <RollbarProvider instance={rollbar}>
-      <ErrorBoundary>
-        <Provider store={store}>
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            pauseOnFocusLoss
-          />
-          <App />
-        </Provider>
-      </ErrorBoundary>
-    </RollbarProvider>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <RollbarProvider instance={rollbar}>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          pauseOnFocusLoss
+        />
+        <App />
+      </Provider>
+    </ErrorBoundary>
+  </RollbarProvider>,
+  // </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function
