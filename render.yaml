@@ -3,14 +3,14 @@ services:
     name: frontend-project-12
     env: node
     buildCommand: npm install --prefix frontend && npm run build --prefix frontend
-    startCommand: serve -s frontend/build
+    startCommand: npx start-server -p 5001
     publish:
       path: frontend/build
     plan: free
 
-  - type: web
-    name: backend
-    env: node
-    buildCommand: npm install
-    startCommand: node server.js
-    plan: free
+  # - type: web
+  #   name: backend
+  #   env: node
+  #   buildCommand: npm install
+  #   startCommand: node server.js
+  #   plan: free
