@@ -3,7 +3,7 @@ services:
     name: frontend-project-12
     env: node
     buildCommand: npm install --prefix frontend && npm run build --prefix frontend
-    startCommand: echo "Starting @hexlet/chat-server..." && npx start-server -s frontend/build
+    startCommand: echo "Starting @hexlet/chat-server..." && npm run start-server
     publish:
       path: frontend/build
     plan: free
