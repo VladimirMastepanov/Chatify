@@ -5,7 +5,7 @@ services:
     buildCommand: npm install --prefix frontend && npm run build --prefix frontend
     startCommand: serve -s frontend/build
     publish:
-      path: ./frontend/build
+      path: frontend/build
     plan: free
 
   - type: web
