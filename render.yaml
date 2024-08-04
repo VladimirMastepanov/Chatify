@@ -11,6 +11,6 @@ services:
   - type: web
     name: backend
     env: node
-    buildCommand: npx start-server
+    buildCommand: npm install
     startCommand: node server.js
     plan: free
