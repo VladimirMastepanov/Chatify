@@ -1,6 +1,8 @@
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:5001', {
+const socket = io(process.env.NODE_ENV === 'production'
+  ? 'wss://frontend-project-1-2y5w.onrender.com'
+  : 'ws://localhost:5001', {
   transports: ['websocket'],
   reconnection: true,
   reconnectionAttempts: Infinity,
