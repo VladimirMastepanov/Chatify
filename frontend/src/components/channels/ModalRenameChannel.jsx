@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import looProfanity from 'leo-profanity';
+import leoProfanity from 'leo-profanity';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import {
@@ -45,11 +45,9 @@ const ModalRenameChannel = ({
           initialValues={{ newName: oldName }}
           validationSchema={validationSchema}
           onSubmit={async (values, actions) => {
-            const isInvalidName = looProfanity.check(values.newName);
-            if (isInvalidName) {
-              actions.setFieldError(t('badWord'));
-            } else if (!channelsNames.includes(values.newName)) {
-              const newName = { name: values.newName };
+            const validName = leoProfanity.clean(values.newName);
+            if (!channelsNames.includes(validName)) {
+              const newName = { name: validName };
               try {
                 dispatch(updateChannel({ id, token, newName }));
                 toast.success(t('channelRenamed'));
