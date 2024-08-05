@@ -25,7 +25,7 @@ const SignUpForm = () => {
     if (token) {
       navigate('/');
     }
-  }, [token, navigate, error]);
+  }, [token, navigate]);
 
   return (
     <Formik
@@ -37,8 +37,9 @@ const SignUpForm = () => {
           password: values.password,
         };
         try {
-          dispatch(fetchSignUp(newUser));
+          dispatch(fetchSignUp(newUser)).unwrap();
         } catch (e) {
+          console.log(1);
           if (e.message === 'Request failed with status code 409') {
             actions.setStatus({ nonFieldError: t('existingUser') });
           } else {
