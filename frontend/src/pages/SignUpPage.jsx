@@ -37,9 +37,8 @@ const SignUpForm = () => {
           password: values.password,
         };
         try {
-          dispatch(fetchSignUp(newUser)).unwrap();
+          await dispatch(fetchSignUp(newUser)).unwrap();
         } catch (e) {
-          console.log(1);
           if (e.message === 'Request failed with status code 409') {
             actions.setStatus({ nonFieldError: t('existingUser') });
           } else {
