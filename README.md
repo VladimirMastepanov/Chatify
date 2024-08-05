@@ -42,5 +42,4 @@ ___
 * ESLint (конфигурация Airbnb)
 * Babel
 * Rollbar (для отслеживания ошибок)
-* Testing Library (React и Jest DOM)
 * Leo Profanity (для фильтрации нецензурного контента)
