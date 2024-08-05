@@ -5,6 +5,8 @@ const loadPrafanityDictionary = createAsyncThunk(
   'profanity/loadDictionary',
   async () => {
     leoProfanity.loadDictionary('ru');
+    leoProfanity.loadDictionary('en');
+    leoProfanity.loadDictionary('es');
   },
 );
 
