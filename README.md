@@ -1,5 +1,5 @@
 ### Hexlet tests and linter status:
-[![Actions Status](https://github.com/VladimirMastepanov/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/VladimirMastepanov/frontend-project-12/actions) <br>
+[![Actions Status](https://github.com/VladimirMastepanov/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/VladimirMastepanov/frontend-project-12/actions) [![Maintainability](https://api.codeclimate.com/v1/badges/65b6b79bd0f04e308494/maintainability)](https://codeclimate.com/github/VladimirMastepanov/frontend-project-12/maintainability)<br>
 ___
 ### Чат-приложение
 [Try it now!](https://frontend-project-1-2y5w.onrender.com "Follow the link to try it")
