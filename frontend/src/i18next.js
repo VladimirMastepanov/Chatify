@@ -28,7 +28,7 @@ i18next
           deleteChannel: 'Удалить канал',
           newChannelName: 'Новое имя канала',
           channelCreated: 'Канал создан',
-          channelDeleted: 'Канал удалеён',
+          channelDeleted: 'Канал удалён',
           channelRenamed: 'Канал переименован',
           newMessage: 'Новое сообщение',
           sent: 'Отправить',
