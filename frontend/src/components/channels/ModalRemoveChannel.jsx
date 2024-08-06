@@ -25,7 +25,7 @@ const ModalRemoveChannel = ({
   };
 
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal show={show} onHide={onHide} className="modal-dialog-centered" centered>
 
       <Modal.Header closeButton>
         <Modal.Title>{t('deleteChannel')}</Modal.Title>

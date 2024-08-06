@@ -30,7 +30,7 @@ const ModalAddChannel = ({ onHide, show }) => {
   }, [channelsNames]);
 
   return (
-    <Modal show={show} onHide={onHide} className="modal-dialog-centered">
+    <Modal show={show} onHide={onHide} className="modal-dialog-centered" centered>
       <Modal.Header closeButton>
         <Modal.Title>{t('addChannel')}</Modal.Title>
       </Modal.Header>

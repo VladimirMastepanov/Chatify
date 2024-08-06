@@ -34,7 +34,7 @@ const ModalRenameChannel = ({
   }, [oldName, show]);
 
   return (
-    <Modal show={show} onHide={onHide} className="modal-dialog-centered">
+    <Modal show={show} onHide={onHide} className="modal-dialog-centered" centered>
       <Modal.Header closeButton>
         <Modal.Title>{t('renameChannel')}</Modal.Title>
       </Modal.Header>

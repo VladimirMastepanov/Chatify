@@ -23,7 +23,7 @@ root.render(
         <Provider store={store}>
           <ToastContainer
             position="top-right"
-            autoClose={7000}
+            autoClose={5000}
             pauseOnFocusLoss
           />
           <App />
