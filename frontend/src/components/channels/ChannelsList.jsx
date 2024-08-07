@@ -52,9 +52,9 @@ const ChannelsList = ({ activeChannelName, setActiveChannelName, setActiveChanne
                 onClick={() => handleActiveChannelChange(channel)}
                 type="button"
                 className={cn('w-100', 'rounded-0', 'text-start', {
-                  'btn-secondary': isActive,
-                  btn: true,
                   'text-truncate': channel.removable,
+                  btn: true,
+                  'btn-secondary': isActive,
                 })}
               >
                 <span className="me-1">#</span>
