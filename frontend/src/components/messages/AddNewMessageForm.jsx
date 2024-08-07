@@ -31,7 +31,7 @@ const AddNewMessageForm = ({ activeChannelId }) => {
           channelId: activeChannelId,
         };
         try {
-          await dispatch(addMessage({ token, newMessage }));
+          await dispatch(addMessage({ token, newMessage })).unwrap();
           actions.resetForm();
         } catch (e) {
           toast.error('connectionError');
