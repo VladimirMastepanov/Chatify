@@ -32,11 +32,11 @@ const AddNewMessageForm = ({ activeChannelId }) => {
         };
         try {
           dispatch(addMessage({ token, newMessage }));
-          actions.setSubmitting(false);
           actions.resetForm();
         } catch (e) {
           toast.error('connectionError');
         }
+        actions.setSubmitting(false);
       }}
     >
       {(props) => (
