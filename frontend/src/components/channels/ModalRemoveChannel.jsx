@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { removeChannel } from '../../features/channels/channelsSlice';
 
 const ModalRemoveChannel = ({
-  onHide, show, id, setActiveChannelId, setActiveChannelName,
+  onHide, show, id, setActiveChannelName,
 }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -15,7 +15,6 @@ const ModalRemoveChannel = ({
     const token = localStorage.getItem('token');
     try {
       dispatch(removeChannel({ token, id }));
-      setActiveChannelId('1');
       setActiveChannelName('general');
       toast.success(t('channelDeleted'));
       onHide();

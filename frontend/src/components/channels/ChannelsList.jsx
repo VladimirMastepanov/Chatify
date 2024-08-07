@@ -7,7 +7,7 @@ import { channelsSelector } from '../../features/channels/channelsSlice';
 import ModalRemoveChannel from './ModalRemoveChannel';
 import ModalRenameChannel from './ModalRenameChannel';
 
-const ChannelsList = ({ activeChannelId, setActiveChannelName, setActiveChannelId }) => {
+const ChannelsList = ({ activeChannelName, setActiveChannelName, setActiveChannelId }) => {
   const [showModalRename, setShowModalRename] = useState(false);
   const [showModalRemove, setShowModalRemove] = useState(false);
   const [modalId, setModalId] = useState('');
@@ -43,7 +43,7 @@ const ChannelsList = ({ activeChannelId, setActiveChannelName, setActiveChannelI
     <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
       {ids.map((id) => {
         const channel = entities[id];
-        const isActive = id === activeChannelId;
+        const isActive = channel.name === activeChannelName;
         return (
           <li className="nav-item w-100" key={id}>
             <div role="group" className="d-flex align-items-center justify-content-between dropdown border-0 p-0 ps-2">
@@ -84,7 +84,6 @@ const ChannelsList = ({ activeChannelId, setActiveChannelName, setActiveChannelI
         show={showModalRemove}
         onHide={onHideModalRemove}
         id={modalId}
-        setActiveChannelId={setActiveChannelId}
         setActiveChannelName={setActiveChannelName}
       />
       <ModalRenameChannel

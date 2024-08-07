@@ -11,7 +11,7 @@ import {
 import { addChannel, channelsSelector } from '../../features/channels/channelsSlice';
 import { currentTokenSelector } from '../../features/authentication/authSlice';
 
-const ModalAddChannel = ({ onHide, show }) => {
+const ModalAddChannel = ({ onHide, show, setActiveChannelName }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const token = useSelector(currentTokenSelector);
@@ -49,6 +49,7 @@ const ModalAddChannel = ({ onHide, show }) => {
                 toast.success(t('channelCreated'));
                 actions.resetForm();
                 onHide();
+                setActiveChannelName(validName);
               } catch (e) {
                 toast.error(t('connectionError'));
               }

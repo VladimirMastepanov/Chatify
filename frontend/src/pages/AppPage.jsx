@@ -12,8 +12,8 @@ import TopNavigation from '../components/TopNavigation';
 import socket from '../socket';
 
 const AppPage = () => {
-  const [activeChannelId, setActiveChannelId] = useState('1');
   const [activeChannelName, setActiveChannelName] = useState('general');
+  const [activeChannelId, setActiveChannelId] = useState('1');
   const userToken = useSelector(currentTokenSelector);
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -25,14 +25,6 @@ const AppPage = () => {
     } catch (e) {
       toast.error(t('connectionError'));
     }
-
-    // try {
-    //   throw new Error('Test error for Rollbar');
-    // } catch (error) {
-    //   Rollbar.error(error);
-    // }
-
-    // Rollbar.info('Test message from application');
 
     socket.connect();
     dispatch(setConnected());
@@ -52,8 +44,8 @@ const AppPage = () => {
       <div className="container h-100 my-4 overflow-hidden rounded shadow">
         <div className="row h-100 bg-white flex-md-row">
           <ChannelsColumn
-            activeChannelId={activeChannelId}
             setActiveChannelId={setActiveChannelId}
+            activeChannelName={activeChannelName}
             setActiveChannelName={setActiveChannelName}
           />
           <MessagesColumn
