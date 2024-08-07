@@ -51,8 +51,9 @@ const ChannelsList = ({ activeChannelName, setActiveChannelName, setActiveChanne
               <button
                 onClick={() => handleActiveChannelChange(channel)}
                 type="button"
-                className={cn('w-100', 'rounded-0', 'text-start', 'btn', {
+                className={cn('w-100', 'rounded-0', 'text-start', {
                   'btn-secondary': isActive,
+                  btn: true,
                   'text-truncate': channel.removable,
                 })}
               >
