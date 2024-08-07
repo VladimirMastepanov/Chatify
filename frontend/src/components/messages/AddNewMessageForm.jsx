@@ -23,7 +23,7 @@ const AddNewMessageForm = ({ activeChannelId }) => {
   return (
     <Formik
       initialValues={{ body: '' }}
-      onSubmit={(values, actions) => {
+      onSubmit={async (values, actions) => {
         const cleanText = leoProfanity.clean(values.body);
         const newMessage = {
           body: cleanText,
@@ -31,7 +31,7 @@ const AddNewMessageForm = ({ activeChannelId }) => {
           channelId: activeChannelId,
         };
         try {
-          dispatch(addMessage({ token, newMessage }));
+          await dispatch(addMessage({ token, newMessage }));
           actions.resetForm();
         } catch (e) {
           toast.error('connectionError');
