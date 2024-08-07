@@ -8,8 +8,8 @@ import * as yup from 'yup';
 import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
-import { updateChannel, channelsSelector } from '../../features/channels/channelsSlice';
-import { currentTokenSelector } from '../../features/authentication/authSlice';
+import { updateChannel, channelsSelector } from '../../slices/channels/channelsSlice';
+import { currentTokenSelector } from '../../slices/authentication/authSlice';
 
 const ModalRenameChannel = ({
   onHide, show, id, oldName,

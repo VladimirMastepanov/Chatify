@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { currentTokenSelector, clearCredentials } from '../features/authentication/authSlice';
+import { currentTokenSelector, clearCredentials } from '../slices/authentication/authSlice';
 
 const TopNavigation = () => {
   const { t } = useTranslation();

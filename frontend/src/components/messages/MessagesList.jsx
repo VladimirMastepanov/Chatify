@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { messagesSelector } from '../../features/messages/messagesSlice';
+import { messagesSelector } from '../../slices/messages/messagesSlice';
 
 const MessagesList = ({ activeChannelId, setMessagesCount }) => {
   const entities = useSelector(messagesSelector.selectEntities);
@@ -10,7 +10,7 @@ const MessagesList = ({ activeChannelId, setMessagesCount }) => {
     if (actualMessages) {
       setMessagesCount(actualMessages.length);
     }
-  }, [actualMessages]);
+  }, [actualMessages, setMessagesCount]);
 
   if (!actualMessages || actualMessages.length === 0) {
     return null;

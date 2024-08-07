@@ -8,8 +8,8 @@ import * as yup from 'yup';
 import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
-import { addChannel, channelsSelector } from '../../features/channels/channelsSlice';
-import { currentTokenSelector } from '../../features/authentication/authSlice';
+import { addChannel, channelsSelector } from '../../slices/channels/channelsSlice';
+import { currentTokenSelector } from '../../slices/authentication/authSlice';
 
 const ModalAddChannel = ({ onHide, show, setActiveChannelName }) => {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const ModalAddChannel = ({ onHide, show, setActiveChannelName }) => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
-  }, [channelsNames]);
+  }, []);
 
   return (
     <Modal show={show} onHide={onHide} className="modal-dialog-centered" centered>

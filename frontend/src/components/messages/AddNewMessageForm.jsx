@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Formik, Form, Field } from 'formik';
 import leoProfanity from 'leo-profanity';
 import { toast } from 'react-toastify';
-import { currentUsernameSelector, currentTokenSelector } from '../../features/authentication/authSlice';
-import { addMessage } from '../../features/messages/messagesSlice';
+import { currentUsernameSelector, currentTokenSelector } from '../../slices/authentication/authSlice';
+import { addMessage } from '../../slices/messages/messagesSlice';
 
 const AddNewMessageForm = ({ activeChannelId }) => {
   const dispatch = useDispatch();
