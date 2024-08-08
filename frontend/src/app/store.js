@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from '../features/authentication/authSlice';
-import channelsReducer from '../features/channels/channelsSlice';
-import messagesReducer from '../features/messages/messagesSlice';
-import socketReducer from '../features/socket/socketSlice';
+import authReducer from '../slices/authentication/authSlice';
+import channelsReducer from '../slices/channels/channelsSlice';
+import messagesReducer from '../slices/messages/messagesSlice';
+import socketReducer from '../slices/socket/socketSlice';
 import loadPrafanityDictionary from './leoProfanityThunk';
 import middlewares from './middlewares/index';
 

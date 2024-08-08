@@ -9,7 +9,7 @@ import {
   Form,
   Field,
 } from 'formik';
-import { fetchAuth, currentTokenSelector, authorizationError } from '../features/authentication/authSlice';
+import { fetchAuth, currentTokenSelector, authorizationError } from '../slices/authentication/authSlice';
 import TopNavigation from '../components/TopNavigation';
 
 const LoginForm = () => {

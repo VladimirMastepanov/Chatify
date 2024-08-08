@@ -1,5 +1,5 @@
-import { addOneChannel, removeOneChannel, renameOneChannel } from '../../../features/channels/channelsSlice';
-import { addOneMessage } from '../../../features/messages/messagesSlice';
+import { addOneChannel, removeOneChannel, renameOneChannel } from '../../../slices/channels/channelsSlice';
+import { addOneMessage } from '../../../slices/messages/messagesSlice';
 
 const socketMiddleware = (socket) => ({ dispatch }) => {
   if (!socket) {

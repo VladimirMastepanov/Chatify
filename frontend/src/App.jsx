@@ -7,7 +7,7 @@ import {
   Route, Routes,
   Navigate,
 } from 'react-router-dom';
-import { currentTokenSelector } from './features/authentication/authSlice';
+import { currentTokenSelector } from './slices/authentication/authSlice';
 import SignUpPage from './pages/SignUpPage';
 import Spinner from './components/Spinner';
 

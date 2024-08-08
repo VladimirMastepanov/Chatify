@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Formik, Form, Field } from 'formik';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
-import { fetchSignUp, currentTokenSelector, authorizationError } from '../features/authentication/authSlice';
+import { fetchSignUp, currentTokenSelector, authorizationError } from '../slices/authentication/authSlice';
 import TopNavigation from '../components/TopNavigation';
 
 const SignUpForm = () => {
