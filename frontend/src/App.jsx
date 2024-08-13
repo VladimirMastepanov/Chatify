@@ -8,6 +8,7 @@ import {
   Navigate,
 } from 'react-router-dom';
 import { currentTokenSelector } from './slices/authentication/authSlice';
+import ROUTES from './helpers/routes';
 import SignUpPage from './pages/SignUpPage';
 import Spinner from './components/Spinner';
 
@@ -17,10 +18,16 @@ const NotFound = React.lazy(() => import('./pages/NotFoundPage'));
 
 const AppRoutes = ({ isAuthenticated }) => (
   <Routes>
-    <Route path="/" element={isAuthenticated ? <AppPage /> : <Navigate to="/login" />} />
-    <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />} />
-    <Route path="/signup" element={<SignUpPage />} />
-    <Route path="*" element={<NotFound />} />
+    <Route
+      path={ROUTES.HOME}
+      element={isAuthenticated ? <AppPage /> : <Navigate to={ROUTES.LOGIN} />}
+    />
+    <Route
+      path={ROUTES.LOGIN}
+      element={isAuthenticated ? <Navigate to={ROUTES.HOME} /> : <LoginPage />}
+    />
+    <Route path={ROUTES.HOME} element={<SignUpPage />} />
+    <Route path={ROUTES.NOTFOUND} element={<NotFound />} />
   </Routes>
 );
 
@@ -29,7 +36,7 @@ const App = () => {
 
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: ROUTES.HOME,
       element: isAuthenticated === undefined ? (
         <Spinner />
       ) : isAuthenticated ? (
@@ -37,15 +44,15 @@ const App = () => {
           <AppPage />
         </Suspense>
       ) : (
-        <Navigate to="/login" />
+        <Navigate to={ROUTES.LOGIN} />
       ),
     },
     {
-      path: '/login',
+      path: ROUTES.LOGIN,
       element: isAuthenticated === undefined ? (
         <Spinner />
       ) : isAuthenticated ? (
-        <Navigate to="/" />
+        <Navigate to={ROUTES.HOME} />
       ) : (
         <Suspense fallback={<Spinner />}>
           <LoginPage />
@@ -53,7 +60,7 @@ const App = () => {
       ),
     },
     {
-      path: '/signup',
+      path: ROUTES.SIGNUP,
       element: (
         <Suspense fallback={<Spinner />}>
           <SignUpPage />
@@ -61,7 +68,7 @@ const App = () => {
       ),
     },
     {
-      path: '*',
+      path: ROUTES.NOTFOUND,
       element: (
         <Suspense fallback={<Spinner />}>
           <NotFound />
