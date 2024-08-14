@@ -1,8 +1,8 @@
-const ROUTES = {
+const PAGEPATH = {
   HOME: '/',
   LOGIN: '/login',
   SIGNUP: '/signup',
   NOTFOUND: '*',
 };
 
-export default ROUTES;
+export default PAGEPATH;

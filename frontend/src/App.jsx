@@ -8,9 +8,9 @@ import {
   Navigate,
 } from 'react-router-dom';
 import { currentTokenSelector } from './slices/authentication/authSlice';
-import ROUTES from './helpers/routes';
 import SignUpPage from './pages/SignUpPage';
 import Spinner from './components/Spinner';
+import PAGEPATH from './helpers/pagePath';
 
 const AppPage = React.lazy(() => import('./pages/AppPage'));
 const LoginPage = React.lazy(() => import('./pages/LoginPage'));
@@ -19,15 +19,15 @@ const NotFound = React.lazy(() => import('./pages/NotFoundPage'));
 const AppRoutes = ({ isAuthenticated }) => (
   <Routes>
     <Route
-      path={ROUTES.HOME}
-      element={isAuthenticated ? <AppPage /> : <Navigate to={ROUTES.LOGIN} />}
+      path={PAGEPATH.HOME}
+      element={isAuthenticated ? <AppPage /> : <Navigate to={PAGEPATH.LOGIN} />}
     />
     <Route
-      path={ROUTES.LOGIN}
-      element={isAuthenticated ? <Navigate to={ROUTES.HOME} /> : <LoginPage />}
+      path={PAGEPATH.LOGIN}
+      element={isAuthenticated ? <Navigate to={PAGEPATH.HOME} /> : <LoginPage />}
     />
-    <Route path={ROUTES.HOME} element={<SignUpPage />} />
-    <Route path={ROUTES.NOTFOUND} element={<NotFound />} />
+    <Route path={PAGEPATH.HOME} element={<SignUpPage />} />
+    <Route path={PAGEPATH.NOTFOUND} element={<NotFound />} />
   </Routes>
 );
 
@@ -36,7 +36,7 @@ const App = () => {
 
   const router = createBrowserRouter([
     {
-      path: ROUTES.HOME,
+      path: PAGEPATH.HOME,
       element: isAuthenticated === undefined ? (
         <Spinner />
       ) : isAuthenticated ? (
@@ -44,15 +44,15 @@ const App = () => {
           <AppPage />
         </Suspense>
       ) : (
-        <Navigate to={ROUTES.LOGIN} />
+        <Navigate to={PAGEPATH.LOGIN} />
       ),
     },
     {
-      path: ROUTES.LOGIN,
+      path: PAGEPATH.LOGIN,
       element: isAuthenticated === undefined ? (
         <Spinner />
       ) : isAuthenticated ? (
-        <Navigate to={ROUTES.HOME} />
+        <Navigate to={PAGEPATH.HOME} />
       ) : (
         <Suspense fallback={<Spinner />}>
           <LoginPage />
@@ -60,7 +60,7 @@ const App = () => {
       ),
     },
     {
-      path: ROUTES.SIGNUP,
+      path: PAGEPATH.SIGNUP,
       element: (
         <Suspense fallback={<Spinner />}>
           <SignUpPage />
@@ -68,7 +68,7 @@ const App = () => {
       ),
     },
     {
-      path: ROUTES.NOTFOUND,
+      path: PAGEPATH.NOTFOUND,
       element: (
         <Suspense fallback={<Spinner />}>
           <NotFound />
