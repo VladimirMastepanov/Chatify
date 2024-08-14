@@ -1,7 +1,5 @@
-import 'dotenv/config';
-
 const rollbar = {
-  accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+  accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
   environment: 'production',
   captureUncaught: true,
   captureUnhandledRejections: true,

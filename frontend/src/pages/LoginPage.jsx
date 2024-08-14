@@ -11,6 +11,7 @@ import {
 } from 'formik';
 import { fetchAuth, currentTokenSelector, authorizationError } from '../slices/authentication/authSlice';
 import TopNavigation from '../components/TopNavigation';
+import PAGEPATH from '../helpers/pagePath';
 
 const LoginForm = () => {
   const inputRef = useRef();
@@ -33,7 +34,7 @@ const LoginForm = () => {
     }
     if (token) {
       setAuthFailed(null);
-      navigate('/');
+      navigate(PAGEPATH.HOME);
     } else if (authError === 'Network Error') {
       console.log(authError);
       toast.error(t('connectionError'));
@@ -109,7 +110,7 @@ const LoginCard = () => {
                 <span>
                   {t('noAccount')}
                 </span>
-                <a href="/signup">{t('registration')}</a>
+                <a href={PAGEPATH.SIGNUP}>{t('registration')}</a>
               </div>
             </div>
 

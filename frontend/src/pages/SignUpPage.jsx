@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { fetchSignUp, currentTokenSelector, authorizationError } from '../slices/authentication/authSlice';
 import TopNavigation from '../components/TopNavigation';
+import PAGEPATH from '../helpers/pagePath';
 
 const SignUpForm = () => {
   const { t } = useTranslation();
@@ -23,7 +24,7 @@ const SignUpForm = () => {
 
   useEffect(() => {
     if (token) {
-      navigate('/');
+      navigate(PAGEPATH.HOME);
     }
   }, [token, navigate]);
 
