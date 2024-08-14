@@ -4,28 +4,28 @@ import { createSlice } from '@reduxjs/toolkit';
 const modalSlice = createSlice({
   name: 'modal',
   initialState: {
-    visibilityAddModalWindow: false,
-    visibilityRenameModalWindow: false,
-    visibilityRemoveModalWindow: false,
+    isAddModalVisible: false,
+    isRenameModalVisible: false,
+    isRemoveModalVisible: false,
   },
   reducers: {
     showAddModalWindow: (state) => {
-      state.visibilityAddModalWindow = true;
+      state.isAddModalVisible = true;
     },
     hideAddModalWindow: (state) => {
-      state.visibilityAddModalWindow = false;
+      state.isAddModalVisible = false;
     },
     showRenameModalWindow: (state) => {
-      state.visibilityRenameModalWindow = true;
+      state.isRenameModalVisible = true;
     },
     hideRenameModalWindow: (state) => {
-      state.visibilityRenameModalWindow = false;
+      state.isRenameModalVisible = false;
     },
     showRemoveModalWindow: (state) => {
-      state.visibilityRemoveModalWindow = true;
+      state.isRemoveModalVisible = true;
     },
     hideRemoveModalWindow: (state) => {
-      state.visibilityRemoveModalWindow = false;
+      state.isRemoveModalVisible = false;
     },
   },
 });
@@ -38,7 +38,7 @@ export const {
   showRenameModalWindow,
   hideRenameModalWindow,
 } = modalSlice.actions;
-export const visibilityAddModalWindow = (state) => state.visibilityAddModalWindow;
-export const visibilityRemoveModalWindow = (state) => state.visibilityRemoveModalWindow;
-export const visibilityRenameModalWindow = (state) => state.visibilityRenameModalWindow;
+export const visibilityAddModalWindow = (state) => state.modal.isAddModalVisible;
+export const visibilityRemoveModalWindow = (state) => state.modal.isRemoveModalVisible;
+export const visibilityRenameModalWindow = (state) => state.modal.isRenameModalVisible;
 export default modalSlice.reducer;

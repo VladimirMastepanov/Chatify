@@ -8,22 +8,18 @@ import {
   activeChannelIdSelector,
   setActiveChannelId,
 } from '../../slices/channels/channelsSlice';
+import { showRemoveModalWindow, showRenameModalWindow } from '../../slices/modal/modalSlice';
 import ModalRemoveChannel from './ModalRemoveChannel';
 import ModalRenameChannel from './ModalRenameChannel';
 
 const ChannelsList = () => {
   const activeChannelId = useSelector(activeChannelIdSelector);
-  const [showModalRename, setShowModalRename] = useState(false);
-  const [showModalRemove, setShowModalRemove] = useState(false);
   const [modalId, setModalId] = useState('');
   const [nameForChange, setNameForChange] = useState('');
   const ids = useSelector(channelsSelector.selectIds);
   const entities = useSelector(channelsSelector.selectEntities);
   const { t } = useTranslation();
   const dispatch = useDispatch();
-
-  const onHideModalRename = () => setShowModalRename(false);
-  const onHideModalRemove = () => setShowModalRemove(false);
 
   const handleActiveChannelChange = (channel) => {
     dispatch(setActiveChannelId(channel.id));
@@ -32,12 +28,12 @@ const ChannelsList = () => {
   const activateModalRename = (id, name) => {
     setModalId(id);
     setNameForChange(name);
-    setShowModalRename(true);
+    dispatch(showRenameModalWindow());
   };
 
   const activateModalRemove = (id) => {
     setModalId(id);
-    setShowModalRemove(true);
+    dispatch(showRemoveModalWindow());
   };
 
   if (!ids || ids.length === 0) {
@@ -87,13 +83,9 @@ const ChannelsList = () => {
         );
       })}
       <ModalRemoveChannel
-        show={showModalRemove}
-        onHide={onHideModalRemove}
         id={modalId}
       />
       <ModalRenameChannel
-        show={showModalRename}
-        onHide={onHideModalRename}
         id={modalId}
         oldName={nameForChange}
       />

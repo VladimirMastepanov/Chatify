@@ -1,27 +1,36 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { removeChannel } from '../../slices/channels/channelsSlice';
+import {
+  visibilityRemoveModalWindow,
+  hideRemoveModalWindow,
+} from '../../slices/modal/modalSlice';
 
-const ModalRemoveChannel = ({ onHide, show, id }) => {
+const ModalRemoveChannel = ({ id }) => {
+  const visibility = useSelector(visibilityRemoveModalWindow);
   const dispatch = useDispatch();
   const { t } = useTranslation();
+
+  const handleHide = () => {
+    dispatch(hideRemoveModalWindow());
+  };
 
   const handleChannelRemove = () => {
     const token = localStorage.getItem('token');
     try {
       dispatch(removeChannel({ token, id }));
       toast.success(t('channelDeleted'));
-      onHide();
+      handleHide();
     } catch (e) {
       toast.error(t('connectionError'));
     }
   };
 
   return (
-    <Modal show={show} onHide={onHide} className="modal-dialog-centered" centered>
+    <Modal show={visibility} onHide={handleHide} className="modal-dialog-centered" centered>
 
       <Modal.Header closeButton>
         <Modal.Title>{t('deleteChannel')}</Modal.Title>
@@ -30,7 +39,7 @@ const ModalRemoveChannel = ({ onHide, show, id }) => {
       <Modal.Body>
         <p className="lead">{t('sure')}</p>
         <div className="d-flex justify-content-end">
-          <Button type="button" className="me-2 btn btn-secondary" onClick={onHide}>{t('cancel')}</Button>
+          <Button type="button" className="me-2 btn btn-secondary" onClick={handleHide}>{t('cancel')}</Button>
           <Button type="button" className="btn btn-danger" onClick={handleChannelRemove}>{t('delete')}</Button>
         </div>
       </Modal.Body>

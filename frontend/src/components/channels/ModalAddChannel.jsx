@@ -8,13 +8,15 @@ import * as yup from 'yup';
 import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
+import { visibilityAddModalWindow, hideAddModalWindow } from '../../slices/modal/modalSlice';
 import { addChannel, channelsSelector } from '../../slices/channels/channelsSlice';
 import { currentTokenSelector } from '../../slices/authentication/authSlice';
 
-const ModalAddChannel = ({ onHide, show }) => {
+const ModalAddChannel = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const token = useSelector(currentTokenSelector);
+  const visibility = useSelector(visibilityAddModalWindow);
   const inputRef = useRef();
   const entities = useSelector(channelsSelector.selectEntities);
   const channelsNames = Object.values(entities).map((channel) => channel.name);
@@ -23,6 +25,10 @@ const ModalAddChannel = ({ onHide, show }) => {
     name: yup.string().min(3, t('lengthLimits')).max(20, t('lengthLimits')).required(t('requiredField')),
   });
 
+  const handleHide = () => {
+    dispatch(hideAddModalWindow());
+  };
+
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
@@ -30,7 +36,7 @@ const ModalAddChannel = ({ onHide, show }) => {
   }, []);
 
   return (
-    <Modal show={show} onHide={onHide} className="modal-dialog-centered" centered>
+    <Modal show={visibility} onHide={handleHide} className="modal-dialog-centered" centered>
       <Modal.Header closeButton>
         <Modal.Title>{t('addChannel')}</Modal.Title>
       </Modal.Header>
@@ -48,7 +54,7 @@ const ModalAddChannel = ({ onHide, show }) => {
                 await dispatch(addChannel({ token, newChannel }));
                 toast.success(t('channelCreated'));
                 actions.resetForm();
-                onHide();
+                handleHide();
               } catch (e) {
                 toast.error(t('connectionError'));
               }
@@ -73,7 +79,7 @@ const ModalAddChannel = ({ onHide, show }) => {
               <label className="visually-hidden" htmlFor="name">{t('channelName')}</label>
               <ErrorMessage name="name" component="div" className="invalid-feedback" />
               <div className="d-flex justify-content-end">
-                <Button type="button" className="me-2 btn btn-secondary" onClick={onHide}>{t('cancel')}</Button>
+                <Button type="button" className="me-2 btn btn-secondary" onClick={handleHide}>{t('cancel')}</Button>
                 <Button type="submit" className="btn btn-primary">{t('sent')}</Button>
               </div>
             </Form>

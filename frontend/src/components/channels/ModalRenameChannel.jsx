@@ -8,15 +8,18 @@ import * as yup from 'yup';
 import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
+import {
+  visibilityRenameModalWindow,
+  hideRenameModalWindow,
+} from '../../slices/modal/modalSlice';
 import { updateChannel, channelsSelector } from '../../slices/channels/channelsSlice';
 import { currentTokenSelector } from '../../slices/authentication/authSlice';
 
-const ModalRenameChannel = ({
-  onHide, show, id, oldName,
-}) => {
+const ModalRenameChannel = ({ id, oldName }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const token = useSelector(currentTokenSelector);
+  const visibility = useSelector(visibilityRenameModalWindow);
   const inputRef = useRef();
   const entities = useSelector(channelsSelector.selectEntities);
   const channelsNames = Object.values(entities).map((channel) => channel.name);
@@ -25,16 +28,20 @@ const ModalRenameChannel = ({
     newName: yup.string().min(3, t('lengthLimits')).max(20, t('lengthLimits')).required(t('requiredField')),
   });
 
+  const handleHide = () => {
+    dispatch(hideRenameModalWindow());
+  };
+
   useEffect(() => {
-    if (inputRef.current && oldName && show) {
+    if (inputRef.current && oldName && visibility) {
       setTimeout(() => {
         inputRef.current.select();
       }, 0);
     }
-  }, [oldName, show]);
+  }, [oldName, visibility]);
 
   return (
-    <Modal show={show} onHide={onHide} className="modal-dialog-centered" centered>
+    <Modal show={visibility} onHide={handleHide} className="modal-dialog-centered" centered>
       <Modal.Header closeButton>
         <Modal.Title>{t('renameChannel')}</Modal.Title>
       </Modal.Header>
@@ -52,7 +59,7 @@ const ModalRenameChannel = ({
                 dispatch(updateChannel({ id, token, newName }));
                 toast.success(t('channelRenamed'));
                 actions.resetForm();
-                onHide();
+                handleHide();
               } catch (e) {
                 toast.error(t('connectionError'));
               }
@@ -77,7 +84,7 @@ const ModalRenameChannel = ({
               <label className="visually-hidden" htmlFor="newName">{t('newChannelName')}</label>
               <ErrorMessage name="newName" component="div" className="invalid-feedback" />
               <div className="d-flex justify-content-end">
-                <Button type="button" className="me-2 btn btn-secondary" onClick={onHide}>{t('cancel')}</Button>
+                <Button type="button" className="me-2 btn btn-secondary" onClick={handleHide}>{t('cancel')}</Button>
                 <Button type="submit" className="btn btn-primary">{t('sent')}</Button>
               </div>
             </Form>
