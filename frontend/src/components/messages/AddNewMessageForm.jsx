@@ -18,10 +18,10 @@ const AddNewMessageForm = () => {
   const inputRef = useRef();
 
   useEffect(() => {
-    if (inputRef) {
+    if (inputRef.current) {
       inputRef.current.focus();
     }
-  });
+  }, [inputRef]);
 
   return (
     <Formik

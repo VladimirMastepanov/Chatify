@@ -33,7 +33,7 @@ const ModalAddChannel = () => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
-  }, []);
+  }, [inputRef]);
 
   return (
     <Modal show={visibility} onHide={handleHide} className="modal-dialog-centered" centered>

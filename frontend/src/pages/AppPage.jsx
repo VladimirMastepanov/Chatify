@@ -23,7 +23,9 @@ const AppPage = () => {
     } catch (e) {
       toast.error(t('connectionError'));
     }
+  }, [userToken, dispatch, t]);
 
+  useEffect(() => {
     socket.connect();
     dispatch(setConnected());
 
@@ -34,7 +36,7 @@ const AppPage = () => {
     return () => {
       socket.disconnect();
     };
-  }, [userToken, dispatch, t]);
+  });
 
   return (
     <div className="d-flex flex-column h-100">

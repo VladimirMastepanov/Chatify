@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +12,7 @@ import PAGEPATH from '../helpers/pagePath';
 const SignUpForm = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const inputRef = useRef();
   const token = useSelector(currentTokenSelector);
   const error = useSelector(authorizationError);
   const navigate = useNavigate();
@@ -21,6 +22,10 @@ const SignUpForm = () => {
     password: yup.string().min(6, t('minLength')).required(t('requiredField')),
     confirmPassword: yup.string().oneOf([yup.ref('password'), null], t('passwordsMustMatch')).required(t('requiredConfirmation')),
   });
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [inputRef]);
 
   useEffect(() => {
     if (token) {
@@ -59,6 +64,7 @@ const SignUpForm = () => {
               name="username"
               autoComplete="username"
               required
+              innerRef={inputRef}
               placeholder={t('userName')}
               id="newUsername"
               className={`form-control ${(props.touched.username && props.errors.username) || error ? 'is-invalid' : ''}`}

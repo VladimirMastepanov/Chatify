@@ -4,12 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
-import {
-  Formik,
-  Form,
-  Field,
-} from 'formik';
-import { fetchAuth, currentTokenSelector, authorizationError } from '../slices/authentication/authSlice';
+import { Formik, Form, Field } from 'formik';
+import { fetchAuth, currentTokenSelector } from '../slices/authentication/authSlice';
 import TopNavigation from '../components/TopNavigation';
 import PAGEPATH from '../helpers/pagePath';
 
@@ -18,7 +14,6 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const token = useSelector(currentTokenSelector);
-  const authError = useSelector(authorizationError);
   const [authFailed, setAuthFailed] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const navigate = useNavigate();
@@ -29,19 +24,15 @@ const LoginForm = () => {
   });
 
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
+    inputRef.current.focus();
+  }, [inputRef]);
+
+  useEffect(() => {
     if (token) {
       setAuthFailed(null);
       navigate(PAGEPATH.HOME);
-    } else if (authError === 'Network Error') {
-      console.log(authError);
-      toast.error(t('connectionError'));
-    } else if (authError === 'Request failed with status code 401') {
-      setAuthFailed(t('incorrectLoginInformation'));
     }
-  }, [token, navigate, authError, inputRef, authFailed, t]);
+  }, [token, navigate]);
 
   return (
     <Formik
@@ -49,7 +40,16 @@ const LoginForm = () => {
       validationSchema={validationSchema}
       onSubmit={async (values, actions) => {
         setIsSubmitted(true);
-        dispatch(fetchAuth(values));
+        try {
+          await dispatch(fetchAuth(values)).unwrap();
+        } catch (e) {
+          if (e.message === 'Network Error') {
+            toast.error(t('connectionError'));
+          }
+          if (e.message === 'Request failed with status code 401') {
+            setAuthFailed(t('incorrectLoginInformation'));
+          }
+        }
         actions.setSubmitting(false);
       }}
     >
