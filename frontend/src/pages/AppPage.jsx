@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -12,8 +12,6 @@ import TopNavigation from '../components/TopNavigation';
 import socket from '../socket';
 
 const AppPage = () => {
-  const [activeChannelName, setActiveChannelName] = useState('general');
-  const [activeChannelId, setActiveChannelId] = useState('1');
   const userToken = useSelector(currentTokenSelector);
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -43,15 +41,8 @@ const AppPage = () => {
       <TopNavigation />
       <div className="container h-100 my-4 overflow-hidden rounded shadow">
         <div className="row h-100 bg-white flex-md-row">
-          <ChannelsColumn
-            setActiveChannelId={setActiveChannelId}
-            activeChannelName={activeChannelName}
-            setActiveChannelName={setActiveChannelName}
-          />
-          <MessagesColumn
-            activeChannelId={activeChannelId}
-            activeChannelName={activeChannelName}
-          />
+          <ChannelsColumn />
+          <MessagesColumn />
         </div>
       </div>
     </div>

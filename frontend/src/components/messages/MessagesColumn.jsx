@@ -1,11 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import AddNewMessageForm from './AddNewMessageForm';
 import MessagesList from './MessagesList';
+import { activeChannelIdSelector, channelsSelector } from '../../slices/channels/channelsSlice';
 
-const MessagesColumn = ({ activeChannelId, activeChannelName }) => {
+const MessagesColumn = () => {
+  const activeChannelId = useSelector(activeChannelIdSelector);
+  const channels = useSelector(channelsSelector.selectEntities);
   const [messageCount, setMessagesCount] = useState(0);
+  const [activeChannelName, setActiveChannelName] = useState(null);
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (channels[activeChannelId]) {
+      setActiveChannelName(channels[activeChannelId].name);
+    }
+  }, [channels, activeChannelId]);
 
   return (
     <div className="col p-0 h-100">
@@ -16,9 +27,9 @@ const MessagesColumn = ({ activeChannelId, activeChannelName }) => {
           </p>
           <span className="text-muted">{t('message', { count: messageCount })}</span>
         </div>
-        <MessagesList activeChannelId={activeChannelId} setMessagesCount={setMessagesCount} />
+        <MessagesList setMessagesCount={setMessagesCount} />
         <div className="mt-auto px-5 py-3">
-          <AddNewMessageForm activeChannelId={activeChannelId} />
+          <AddNewMessageForm />
         </div>
       </div>
     </div>

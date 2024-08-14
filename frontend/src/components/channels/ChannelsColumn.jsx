@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import ModalAddChannel from './ModalAddChannel';
 import ChannelsList from './ChannelsList';
 
-const ChannelsColumn = ({ activeChannelName, setActiveChannelName, setActiveChannelId }) => {
+const ChannelsColumn = () => {
   const [showModal, setShowModal] = useState(false);
   const { t } = useTranslation();
 
@@ -23,15 +23,10 @@ const ChannelsColumn = ({ activeChannelName, setActiveChannelName, setActiveChan
         </button>
       </div>
 
-      <ChannelsList
-        activeChannelName={activeChannelName}
-        setActiveChannelName={setActiveChannelName}
-        setActiveChannelId={setActiveChannelId}
-      />
+      <ChannelsList />
       <ModalAddChannel
         show={showModal}
         onHide={onHide}
-        setActiveChannelName={setActiveChannelName}
       />
 
     </div>

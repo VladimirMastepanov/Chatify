@@ -46,6 +46,7 @@ const initialState = channelsAdapter.getInitialState({
   ids: [],
   loadingStatus: 'idle',
   error: null,
+  activeChannelId: '1',
 });
 
 const channelsSlice = createSlice({
@@ -60,6 +61,9 @@ const channelsSlice = createSlice({
     },
     renameOneChannel: (state, action) => {
       channelsAdapter.updateOne(state, action.payload);
+    },
+    setActiveChannelId: (state, action) => {
+      state.activeChannelId = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -85,6 +89,7 @@ const channelsSlice = createSlice({
         channelsAdapter.addOne(state, action.payload);
         state.loadingStatus = 'idle';
         state.error = null;
+        state.activeChannelId = action.payload.id;
       })
       .addCase(addChannel.rejected, (state, action) => {
         state.loadingStatus = 'failed';
@@ -112,6 +117,7 @@ const channelsSlice = createSlice({
         channelsAdapter.removeOne(state, action.payload);
         state.loadingStatus = 'idle';
         state.error = null;
+        state.activeChannelId = '1';
       })
       .addCase(removeChannel.rejected, (state, action) => {
         state.loadingStatus = 'failed';
@@ -120,6 +126,12 @@ const channelsSlice = createSlice({
   },
 });
 
-export const { addOneChannel, removeOneChannel, renameOneChannel } = channelsSlice.actions;
+export const {
+  addOneChannel,
+  removeOneChannel,
+  renameOneChannel,
+  setActiveChannelId,
+} = channelsSlice.actions;
 export const channelsSelector = channelsAdapter.getSelectors((state) => state.channels);
+export const activeChannelIdSelector = (state) => state.channels.activeChannelId;
 export default channelsSlice.reducer;

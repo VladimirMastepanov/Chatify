@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dropdown } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
-import { channelsSelector } from '../../slices/channels/channelsSlice';
+import {
+  channelsSelector,
+  activeChannelIdSelector,
+  setActiveChannelId,
+} from '../../slices/channels/channelsSlice';
 import ModalRemoveChannel from './ModalRemoveChannel';
 import ModalRenameChannel from './ModalRenameChannel';
 
-const ChannelsList = ({ activeChannelName, setActiveChannelName, setActiveChannelId }) => {
+const ChannelsList = () => {
+  const activeChannelId = useSelector(activeChannelIdSelector);
   const [showModalRename, setShowModalRename] = useState(false);
   const [showModalRemove, setShowModalRemove] = useState(false);
   const [modalId, setModalId] = useState('');
@@ -15,13 +20,13 @@ const ChannelsList = ({ activeChannelName, setActiveChannelName, setActiveChanne
   const ids = useSelector(channelsSelector.selectIds);
   const entities = useSelector(channelsSelector.selectEntities);
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const onHideModalRename = () => setShowModalRename(false);
   const onHideModalRemove = () => setShowModalRemove(false);
 
   const handleActiveChannelChange = (channel) => {
-    setActiveChannelId(channel.id);
-    setActiveChannelName(channel.name);
+    dispatch(setActiveChannelId(channel.id));
   };
 
   const activateModalRename = (id, name) => {
@@ -43,7 +48,7 @@ const ChannelsList = ({ activeChannelName, setActiveChannelName, setActiveChanne
     <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
       {ids.map((id) => {
         const channel = entities[id];
-        const isActive = channel.name === activeChannelName;
+        const isActive = channel.id === activeChannelId;
         return (
           <li className="nav-item w-100" key={id}>
             <div role="group" className="d-flex align-items-center justify-content-between dropdown border-0 p-0 ps-2">
@@ -85,7 +90,6 @@ const ChannelsList = ({ activeChannelName, setActiveChannelName, setActiveChanne
         show={showModalRemove}
         onHide={onHideModalRemove}
         id={modalId}
-        setActiveChannelName={setActiveChannelName}
       />
       <ModalRenameChannel
         show={showModalRename}

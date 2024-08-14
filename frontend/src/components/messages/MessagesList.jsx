@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { messagesSelector } from '../../slices/messages/messagesSlice';
+import { activeChannelIdSelector } from '../../slices/channels/channelsSlice';
 
-const MessagesList = ({ activeChannelId, setMessagesCount }) => {
+const MessagesList = ({ setMessagesCount }) => {
   const entities = useSelector(messagesSelector.selectEntities);
+  const activeChannelId = useSelector(activeChannelIdSelector);
   const actualMessages = Object.values(entities).filter((m) => m.channelId === activeChannelId);
 
   useEffect(() => {

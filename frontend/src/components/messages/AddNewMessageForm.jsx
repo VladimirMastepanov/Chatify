@@ -6,12 +6,14 @@ import leoProfanity from 'leo-profanity';
 import { toast } from 'react-toastify';
 import { currentUsernameSelector, currentTokenSelector } from '../../slices/authentication/authSlice';
 import { addMessage } from '../../slices/messages/messagesSlice';
+import { activeChannelIdSelector } from '../../slices/channels/channelsSlice';
 
-const AddNewMessageForm = ({ activeChannelId }) => {
+const AddNewMessageForm = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const username = useSelector(currentUsernameSelector);
   const token = useSelector(currentTokenSelector);
+  const activeChannelId = useSelector(activeChannelIdSelector);
   const inputRef = useRef();
 
   useEffect(() => {

@@ -5,9 +5,7 @@ import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { removeChannel } from '../../slices/channels/channelsSlice';
 
-const ModalRemoveChannel = ({
-  onHide, show, id, setActiveChannelName,
-}) => {
+const ModalRemoveChannel = ({ onHide, show, id }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -15,7 +13,6 @@ const ModalRemoveChannel = ({
     const token = localStorage.getItem('token');
     try {
       dispatch(removeChannel({ token, id }));
-      setActiveChannelName('general');
       toast.success(t('channelDeleted'));
       onHide();
     } catch (e) {
