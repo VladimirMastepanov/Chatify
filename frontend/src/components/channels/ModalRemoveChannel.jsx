@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { removeChannel } from '../../slices/channels/channelsSlice';
+import { useRemoveChannelMutation } from '../../slices/channels/channelsApi';
 import {
   visibilityRemoveModalWindow,
   hideRemoveModalWindow,
@@ -13,15 +13,15 @@ const ModalRemoveChannel = ({ id }) => {
   const visibility = useSelector(visibilityRemoveModalWindow);
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const [removeChannel] = useRemoveChannelMutation();
 
   const handleHide = () => {
     dispatch(hideRemoveModalWindow());
   };
 
-  const handleChannelRemove = () => {
-    const token = localStorage.getItem('token');
+  const handleChannelRemove = async () => {
     try {
-      dispatch(removeChannel({ token, id }));
+      await removeChannel(id);
       toast.success(t('channelDeleted'));
       handleHide();
     } catch (e) {

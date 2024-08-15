@@ -1,21 +1,22 @@
 import React, { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Formik, Form, Field } from 'formik';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
-import { fetchSignUp, currentTokenSelector, authorizationError } from '../slices/authentication/authSlice';
+import { currentTokenSelector, authorizationError } from '../slices/authentication/authSlice';
+import { useFetchSignUpMutation } from '../slices/authentication/authApi';
 import TopNavigation from '../components/TopNavigation';
 import PAGEPATH from '../helpers/pagePath';
 
 const SignUpForm = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const inputRef = useRef();
   const token = useSelector(currentTokenSelector);
   const error = useSelector(authorizationError);
   const navigate = useNavigate();
+  const [fetchSignUp] = useFetchSignUpMutation();
 
   const validationSchema = yup.object().shape({
     username: yup.string().min(3, t('lengthLimits')).max(20, t('lengthLimits')).required(t('requiredField')),
@@ -43,9 +44,10 @@ const SignUpForm = () => {
           password: values.password,
         };
         try {
-          await dispatch(fetchSignUp(newUser)).unwrap();
+          await fetchSignUp(newUser).unwrap();
         } catch (e) {
-          if (e.message === 'Request failed with status code 409') {
+          console.log(e);
+          if (e.data.message === 'Conflict') {
             actions.setStatus({ nonFieldError: t('existingUser') });
           } else {
             actions.setStatus({ nonFieldError: t('connectionError') });

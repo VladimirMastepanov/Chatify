@@ -1,19 +1,18 @@
 import React, { useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Formik, Form, Field } from 'formik';
 import leoProfanity from 'leo-profanity';
 import { toast } from 'react-toastify';
 import SvgArrowIcon from '../SvgArrowIcon';
-import { currentUsernameSelector, currentTokenSelector } from '../../slices/authentication/authSlice';
-import { addMessage } from '../../slices/messages/messagesSlice';
+import { currentUsernameSelector } from '../../slices/authentication/authSlice';
 import { activeChannelIdSelector } from '../../slices/channels/channelsSlice';
+import { useAddMessageMutation } from '../../slices/messages/messagesApi';
 
 const AddNewMessageForm = () => {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
   const username = useSelector(currentUsernameSelector);
-  const token = useSelector(currentTokenSelector);
+  const [addMessage] = useAddMessageMutation();
   const activeChannelId = useSelector(activeChannelIdSelector);
   const inputRef = useRef();
 
@@ -34,7 +33,7 @@ const AddNewMessageForm = () => {
           channelId: activeChannelId,
         };
         try {
-          await dispatch(addMessage({ token, newMessage })).unwrap();
+          await addMessage(newMessage);
           actions.resetForm();
         } catch (e) {
           toast.error('connectionError');

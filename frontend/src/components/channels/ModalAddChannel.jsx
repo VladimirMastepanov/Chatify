@@ -9,16 +9,16 @@ import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
 import { visibilityAddModalWindow, hideAddModalWindow } from '../../slices/modal/modalSlice';
-import { addChannel, channelsSelector } from '../../slices/channels/channelsSlice';
-import { currentTokenSelector } from '../../slices/authentication/authSlice';
+import { channelsSelector } from '../../slices/channels/channelsSlice';
+import { useAddChannelMutation } from '../../slices/channels/channelsApi';
 
 const ModalAddChannel = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const token = useSelector(currentTokenSelector);
   const visibility = useSelector(visibilityAddModalWindow);
   const inputRef = useRef();
   const entities = useSelector(channelsSelector.selectEntities);
+  const [addChannel] = useAddChannelMutation();
   const channelsNames = Object.values(entities).map((channel) => channel.name);
 
   const validationSchema = yup.object().shape({
@@ -51,7 +51,7 @@ const ModalAddChannel = () => {
             if (!channelsNames.includes(validName)) {
               const newChannel = { name: validName };
               try {
-                await dispatch(addChannel({ token, newChannel }));
+                await addChannel(newChannel);
                 toast.success(t('channelCreated'));
                 actions.resetForm();
                 handleHide();

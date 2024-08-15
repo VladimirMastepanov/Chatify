@@ -1,23 +1,6 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import routes from '../../routes';
-
-export const fetchAuth = createAsyncThunk(
-  'auth/fetchAuth',
-  async (authValues) => {
-    const response = await axios.post(routes.loginPath(), authValues);
-    return response.data;
-  },
-);
-
-export const fetchSignUp = createAsyncThunk(
-  'auth/fetchSignUp',
-  async (signUpValues) => {
-    const response = await axios.post(routes.signUpPath(), signUpValues);
-    return response.data;
-  },
-);
+import { createSlice } from '@reduxjs/toolkit';
+import { authApi } from './authApi';
 
 const authSlice = createSlice({
   name: 'auth',
@@ -37,11 +20,11 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAuth.pending, (state) => {
+      .addMatcher(authApi.endpoints.fetchAuth.matchPending, (state) => {
         state.loadingStatus = 'loading';
         state.error = null;
       })
-      .addCase(fetchAuth.fulfilled, (state, action) => {
+      .addMatcher(authApi.endpoints.fetchAuth.matchFulfilled, (state, action) => {
         localStorage.setItem('username', action.payload.username);
         localStorage.setItem('token', action.payload.token);
         state.token = action.payload.token;
@@ -49,15 +32,15 @@ const authSlice = createSlice({
         state.loadingStatus = 'idle';
         state.error = null;
       })
-      .addCase(fetchAuth.rejected, (state, action) => {
+      .addMatcher(authApi.endpoints.fetchAuth.matchRejected, (state, action) => {
         state.loadingStatus = 'failed';
-        state.error = action.error.message;
+        state.error = action.payload.status;
       })
-      .addCase(fetchSignUp.pending, (state) => {
+      .addMatcher(authApi.endpoints.fetchSignUp.matchPending, (state) => {
         state.loadingStatus = 'loading';
         state.error = null;
       })
-      .addCase(fetchSignUp.fulfilled, (state, action) => {
+      .addMatcher(authApi.endpoints.fetchSignUp.matchFulfilled, (state, action) => {
         localStorage.setItem('token', action.payload.token);
         console.log(action.payload);
         state.token = action.payload.token;
@@ -65,9 +48,9 @@ const authSlice = createSlice({
         state.loadingStatus = 'idle';
         state.error = null;
       })
-      .addCase(fetchSignUp.rejected, (state, action) => {
+      .addMatcher(authApi.endpoints.fetchSignUp.matchRejected, (state, action) => {
         state.loadingStatus = 'failed';
-        state.error = action.error.message;
+        state.error = action.payload.status;
       });
   },
 });

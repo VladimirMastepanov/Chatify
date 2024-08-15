@@ -1,22 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { Formik, Form, Field } from 'formik';
-import { fetchAuth, currentTokenSelector } from '../slices/authentication/authSlice';
+import { currentTokenSelector } from '../slices/authentication/authSlice';
+import { useFetchAuthMutation } from '../slices/authentication/authApi';
 import TopNavigation from '../components/TopNavigation';
 import PAGEPATH from '../helpers/pagePath';
 
 const LoginForm = () => {
   const inputRef = useRef();
-  const dispatch = useDispatch();
   const { t } = useTranslation();
   const token = useSelector(currentTokenSelector);
   const [authFailed, setAuthFailed] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const navigate = useNavigate();
+  const [fetchAuth] = useFetchAuthMutation();
 
   const validationSchema = yup.object().shape({
     username: yup.string().required(),
@@ -28,6 +29,7 @@ const LoginForm = () => {
   }, [inputRef]);
 
   useEffect(() => {
+    console.log();
     if (token) {
       setAuthFailed(null);
       navigate(PAGEPATH.HOME);
@@ -41,12 +43,12 @@ const LoginForm = () => {
       onSubmit={async (values, actions) => {
         setIsSubmitted(true);
         try {
-          await dispatch(fetchAuth(values)).unwrap();
+          await fetchAuth(values).unwrap();
         } catch (e) {
-          if (e.message === 'Network Error') {
+          if (e.status === 'FETCH_ERROR') {
             toast.error(t('connectionError'));
           }
-          if (e.message === 'Request failed with status code 401') {
+          if (e.data.error === 'Unauthorized') {
             setAuthFailed(t('incorrectLoginInformation'));
           }
         }

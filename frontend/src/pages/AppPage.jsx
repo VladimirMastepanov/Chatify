@@ -1,29 +1,26 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { setConnected, setDisconnected } from '../slices/socket/socketSlice';
-import { currentTokenSelector } from '../slices/authentication/authSlice';
-import { fetchChannels } from '../slices/channels/channelsSlice';
-import { fetchMessages } from '../slices/messages/messagesSlice';
+import { useGetChannelsQuery } from '../slices/channels/channelsApi';
+import { useGetMessagesQuery } from '../slices/messages/messagesApi';
 import ChannelsColumn from '../components/channels/ChannelsColumn';
 import MessagesColumn from '../components/messages/MessagesColumn';
 import TopNavigation from '../components/TopNavigation';
 import socket from '../socket';
 
 const AppPage = () => {
-  const userToken = useSelector(currentTokenSelector);
+  const { error: channelsError } = useGetChannelsQuery();
+  const { error: messagesError } = useGetMessagesQuery();
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
   useEffect(() => {
-    try {
-      dispatch(fetchChannels(userToken));
-      dispatch(fetchMessages(userToken));
-    } catch (e) {
+    if (channelsError || messagesError) {
       toast.error(t('connectionError'));
     }
-  }, [userToken, dispatch, t]);
+  }, [channelsError, messagesError, t]);
 
   useEffect(() => {
     socket.connect();

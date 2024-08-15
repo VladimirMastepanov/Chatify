@@ -12,16 +12,16 @@ import {
   visibilityRenameModalWindow,
   hideRenameModalWindow,
 } from '../../slices/modal/modalSlice';
-import { updateChannel, channelsSelector } from '../../slices/channels/channelsSlice';
-import { currentTokenSelector } from '../../slices/authentication/authSlice';
+import { channelsSelector } from '../../slices/channels/channelsSlice';
+import { useUpdateChannelMutation } from '../../slices/channels/channelsApi';
 
 const ModalRenameChannel = ({ id, oldName }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const token = useSelector(currentTokenSelector);
   const visibility = useSelector(visibilityRenameModalWindow);
   const inputRef = useRef();
   const entities = useSelector(channelsSelector.selectEntities);
+  const [updateChannel] = useUpdateChannelMutation();
   const channelsNames = Object.values(entities).map((channel) => channel.name);
 
   const validationSchema = yup.object().shape({
@@ -56,7 +56,7 @@ const ModalRenameChannel = ({ id, oldName }) => {
             if (!channelsNames.includes(validName)) {
               const newName = { name: validName };
               try {
-                dispatch(updateChannel({ id, token, newName }));
+                await updateChannel({ id, newName });
                 toast.success(t('channelRenamed'));
                 actions.resetForm();
                 handleHide();

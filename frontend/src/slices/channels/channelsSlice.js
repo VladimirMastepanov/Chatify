@@ -2,43 +2,8 @@
 import {
   createSlice,
   createEntityAdapter,
-  createAsyncThunk,
 } from '@reduxjs/toolkit';
-import axios from 'axios';
-import routes from '../../routes';
-import getHeader from '../../helpers/getHeader';
-
-export const fetchChannels = createAsyncThunk(
-  'channels/fetchChannels',
-  async (token) => {
-    const response = await axios.get(routes.channelsPath(), getHeader(token));
-    return response.data;
-  },
-);
-
-export const addChannel = createAsyncThunk(
-  'channels/addChannel',
-  async ({ token, newChannel }) => {
-    const response = await axios.post(routes.channelsPath(), newChannel, getHeader(token));
-    return response.data;
-  },
-);
-
-export const updateChannel = createAsyncThunk(
-  'channels/updateChannel',
-  async ({ token, id, newName }) => {
-    const response = await axios.patch(routes.channelPathWithId(id), newName, getHeader(token));
-    return response.data;
-  },
-);
-
-export const removeChannel = createAsyncThunk(
-  'channels/removeChannel',
-  async ({ token, id }) => {
-    const response = await axios.delete(routes.channelPathWithId(id), getHeader(token));
-    return response.data;
-  },
-);
+import { channelsApi } from './channelsApi';
 
 const channelsAdapter = createEntityAdapter();
 const initialState = channelsAdapter.getInitialState({
@@ -68,58 +33,58 @@ const channelsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchChannels.pending, (state) => {
+      .addMatcher(channelsApi.endpoints.getChannels.matchPending, (state) => {
         state.loadingStatus = 'loading';
         state.error = null;
       })
-      .addCase(fetchChannels.fulfilled, (state, action) => {
+      .addMatcher(channelsApi.endpoints.getChannels.matchFulfilled, (state, action) => {
         channelsAdapter.setAll(state, action.payload);
         state.loadingStatus = 'idle';
         state.error = null;
       })
-      .addCase(fetchChannels.rejected, (state, action) => {
+      .addMatcher(channelsApi.endpoints.getChannels.matchRejected, (state, action) => {
         state.loadingStatus = 'failed';
         state.error = action.error;
       })
-      .addCase(addChannel.pending, (state) => {
+      .addMatcher(channelsApi.endpoints.addChannel.matchPending, (state) => {
         state.loadingStatus = 'loading';
         state.error = null;
       })
-      .addCase(addChannel.fulfilled, (state, action) => {
+      .addMatcher(channelsApi.endpoints.addChannel.matchFulfilled, (state, action) => {
         channelsAdapter.addOne(state, action.payload);
         state.loadingStatus = 'idle';
         state.error = null;
         state.activeChannelId = action.payload.id;
       })
-      .addCase(addChannel.rejected, (state, action) => {
+      .addMatcher(channelsApi.endpoints.addChannel.matchRejected, (state, action) => {
         state.loadingStatus = 'failed';
         state.error = action.error;
       })
-      .addCase(updateChannel.pending, (state) => {
+      .addMatcher(channelsApi.endpoints.updateChannel.matchPending, (state) => {
         state.loadingStatus = 'loading';
         state.error = null;
       })
-      .addCase(updateChannel.fulfilled, (state, action) => {
+      .addMatcher(channelsApi.endpoints.updateChannel.matchFulfilled, (state, action) => {
         const { id, ...changes } = action.payload;
         channelsAdapter.updateOne(state, { id, changes });
         state.loadingStatus = 'idle';
         state.error = null;
       })
-      .addCase(updateChannel.rejected, (state, action) => {
+      .addMatcher(channelsApi.endpoints.updateChannel.matchRejected, (state, action) => {
         state.loadingStatus = 'failed';
         state.error = action.error;
       })
-      .addCase(removeChannel.pending, (state) => {
+      .addMatcher(channelsApi.endpoints.removeChannel.matchPending, (state) => {
         state.loadingStatus = 'loading';
         state.error = null;
       })
-      .addCase(removeChannel.fulfilled, (state, action) => {
+      .addMatcher(channelsApi.endpoints.removeChannel.matchFulfilled, (state, action) => {
         channelsAdapter.removeOne(state, action.payload);
         state.loadingStatus = 'idle';
         state.error = null;
         state.activeChannelId = '1';
       })
-      .addCase(removeChannel.rejected, (state, action) => {
+      .addMatcher(channelsApi.endpoints.removeChannel.matchRejected, (state, action) => {
         state.loadingStatus = 'failed';
         state.error = action.error;
       });

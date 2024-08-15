@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const channelsApi = createApi({
   reducerPath: 'channelsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/v1',
+    baseUrl: '/api/v1/channels',
     prepareHeaders: (headers, { getState }) => {
       const { token } = getState().auth;
       if (token) {
@@ -12,29 +12,32 @@ export const channelsApi = createApi({
       return headers;
     },
   }),
+  tagTypes: ['Channels'],
   endpoints: (builder) => ({
     getChannels: builder.query({
-      query: () => 'channels',
+      query: () => '',
+      providesTags: ['Channels'],
     }),
     addChannel: builder.mutation({
       query: (newChannel) => ({
-        url: 'channels',
+        url: '',
         method: 'POST',
         body: newChannel,
       }),
     }),
     updateChannel: builder.mutation({
       query: ({ id, newName }) => ({
-        url: `channels/${id}`,
+        url: id,
         method: 'PATCH',
         body: newName,
       }),
     }),
     removeChannel: builder.mutation({
       query: (id) => ({
-        url: `channel/${id}`,
+        url: id,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Channels'],
     }),
   }),
 });
