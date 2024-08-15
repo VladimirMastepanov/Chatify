@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dropdown } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
@@ -20,6 +20,7 @@ const ChannelsList = () => {
   const entities = useSelector(channelsSelector.selectEntities);
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const containerRef = useRef();
 
   const handleActiveChannelChange = (channel) => {
     dispatch(setActiveChannelId(channel.id));
@@ -36,12 +37,19 @@ const ChannelsList = () => {
     dispatch(showRemoveModalWindow());
   };
 
+  useEffect(() => {
+    if (containerRef && containerRef.current) {
+      const container = containerRef.current;
+      container.scrollTop = container.scrollHeight;
+    }
+  }, [entities, containerRef]);
+
   if (!ids || ids.length === 0) {
     return null;
   }
 
   return (
-    <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
+    <ul id="channels-box" ref={containerRef} className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
       {ids.map((id) => {
         const channel = entities[id];
         const isActive = channel.id === activeChannelId;
