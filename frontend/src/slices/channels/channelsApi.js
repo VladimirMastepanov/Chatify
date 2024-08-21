@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import PAGEPATH from '../../helpers/pagePath';
 
 export const channelsApi = createApi({
   reducerPath: 'channelsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/v1/channels',
+    baseUrl: PAGEPATH.BASECHANNEL,
     prepareHeaders: (headers, { getState }) => {
       const { token } = getState().auth;
       if (token) {

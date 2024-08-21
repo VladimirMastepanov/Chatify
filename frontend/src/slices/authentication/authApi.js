@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import PAGEPATH from '../../helpers/pagePath';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api/v1' }),
+  baseQuery: fetchBaseQuery({ baseUrl: PAGEPATH.BASE }),
   endpoints: (builder) => ({
     fetchAuth: builder.mutation({
       query: (authValues) => ({
