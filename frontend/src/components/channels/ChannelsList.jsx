@@ -8,7 +8,7 @@ import {
   activeChannelIdSelector,
   setActiveChannelId,
 } from '../../slices/channels/channelsSlice';
-import { showRemoveModalWindow, showRenameModalWindow } from '../../slices/modal/modalSlice';
+import { showModalWindow } from '../../slices/modal/modalSlice';
 import ModalRemoveChannel from './ModalRemoveChannel';
 import ModalRenameChannel from './ModalRenameChannel';
 
@@ -29,12 +29,12 @@ const ChannelsList = () => {
   const activateModalRename = (id, name) => {
     setModalId(id);
     setNameForChange(name);
-    dispatch(showRenameModalWindow());
+    dispatch(showModalWindow('rename'));
   };
 
   const activateModalRemove = (id) => {
     setModalId(id);
-    dispatch(showRemoveModalWindow());
+    dispatch(showModalWindow('remove'));
   };
 
   useEffect(() => {

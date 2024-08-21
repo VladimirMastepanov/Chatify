@@ -5,18 +5,20 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useRemoveChannelMutation } from '../../slices/channels/channelsApi';
 import {
-  visibilityRemoveModalWindow,
-  hideRemoveModalWindow,
+  visibilityModalWindowSelector,
+  typeModalWindowSelector,
+  hideModalWindow,
 } from '../../slices/modal/modalSlice';
 
 const ModalRemoveChannel = ({ id }) => {
-  const visibility = useSelector(visibilityRemoveModalWindow);
+  const modalVisibility = useSelector(visibilityModalWindowSelector);
+  const modalType = useSelector(typeModalWindowSelector);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [removeChannel] = useRemoveChannelMutation();
 
   const handleHide = () => {
-    dispatch(hideRemoveModalWindow());
+    dispatch(hideModalWindow());
   };
 
   const handleChannelRemove = async () => {
@@ -30,7 +32,7 @@ const ModalRemoveChannel = ({ id }) => {
   };
 
   return (
-    <Modal show={visibility} onHide={handleHide} className="modal-dialog-centered" centered>
+    <Modal show={modalVisibility && modalType === 'remove'} onHide={handleHide} className="modal-dialog-centered" centered>
 
       <Modal.Header closeButton>
         <Modal.Title>{t('deleteChannel')}</Modal.Title>

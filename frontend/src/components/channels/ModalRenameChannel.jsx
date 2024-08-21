@@ -9,8 +9,9 @@ import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
 import {
-  visibilityRenameModalWindow,
-  hideRenameModalWindow,
+  visibilityModalWindowSelector,
+  typeModalWindowSelector,
+  hideModalWindow,
 } from '../../slices/modal/modalSlice';
 import { channelsSelector } from '../../slices/channels/channelsSlice';
 import { useUpdateChannelMutation } from '../../slices/channels/channelsApi';
@@ -18,7 +19,8 @@ import { useUpdateChannelMutation } from '../../slices/channels/channelsApi';
 const ModalRenameChannel = ({ id, oldName }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const visibility = useSelector(visibilityRenameModalWindow);
+  const modalVisibility = useSelector(visibilityModalWindowSelector);
+  const modalType = useSelector(typeModalWindowSelector);
   const inputRef = useRef();
   const entities = useSelector(channelsSelector.selectEntities);
   const [updateChannel] = useUpdateChannelMutation();
@@ -29,19 +31,19 @@ const ModalRenameChannel = ({ id, oldName }) => {
   });
 
   const handleHide = () => {
-    dispatch(hideRenameModalWindow());
+    dispatch(hideModalWindow('rename'));
   };
 
   useEffect(() => {
-    if (inputRef.current && oldName && visibility) {
+    if (inputRef.current && oldName && modalVisibility) {
       setTimeout(() => {
         inputRef.current.select();
       }, 0);
     }
-  }, [oldName, visibility]);
+  }, [oldName, modalVisibility]);
 
   return (
-    <Modal show={visibility} onHide={handleHide} className="modal-dialog-centered" centered>
+    <Modal show={modalVisibility && modalType === 'rename'} onHide={handleHide} className="modal-dialog-centered" centered>
       <Modal.Header closeButton>
         <Modal.Title>{t('renameChannel')}</Modal.Title>
       </Modal.Header>

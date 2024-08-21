@@ -11,6 +11,7 @@ import { currentTokenSelector } from './slices/authentication/authSlice';
 import SignUpPage from './pages/SignUpPage';
 import Spinner from './components/Spinner';
 import PAGEPATH from './helpers/pagePath';
+import './i18next';
 
 const AppPage = React.lazy(() => import('./pages/AppPage'));
 const LoginPage = React.lazy(() => import('./pages/LoginPage'));

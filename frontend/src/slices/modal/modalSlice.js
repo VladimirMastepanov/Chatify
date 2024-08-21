@@ -4,41 +4,25 @@ import { createSlice } from '@reduxjs/toolkit';
 const modalSlice = createSlice({
   name: 'modal',
   initialState: {
-    isAddModalVisible: false,
-    isRenameModalVisible: false,
-    isRemoveModalVisible: false,
+    type: null,
+    visible: false,
   },
   reducers: {
-    showAddModalWindow: (state) => {
-      state.isAddModalVisible = true;
+    showModalWindow: (state, action) => {
+      state.type = action.payload;
+      state.visible = true;
     },
-    hideAddModalWindow: (state) => {
-      state.isAddModalVisible = false;
-    },
-    showRenameModalWindow: (state) => {
-      state.isRenameModalVisible = true;
-    },
-    hideRenameModalWindow: (state) => {
-      state.isRenameModalVisible = false;
-    },
-    showRemoveModalWindow: (state) => {
-      state.isRemoveModalVisible = true;
-    },
-    hideRemoveModalWindow: (state) => {
-      state.isRemoveModalVisible = false;
+    hideModalWindow: (state) => {
+      state.type = null;
+      state.visible = false;
     },
   },
 });
 
 export const {
-  showAddModalWindow,
-  hideAddModalWindow,
-  showRemoveModalWindow,
-  hideRemoveModalWindow,
-  showRenameModalWindow,
-  hideRenameModalWindow,
+  showModalWindow,
+  hideModalWindow,
 } = modalSlice.actions;
-export const visibilityAddModalWindow = (state) => state.modal.isAddModalVisible;
-export const visibilityRemoveModalWindow = (state) => state.modal.isRemoveModalVisible;
-export const visibilityRenameModalWindow = (state) => state.modal.isRenameModalVisible;
+export const typeModalWindowSelector = (state) => state.modal.type;
+export const visibilityModalWindowSelector = (state) => state.modal.visible;
 export default modalSlice.reducer;

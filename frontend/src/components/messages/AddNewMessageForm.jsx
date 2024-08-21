@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Formik, Form, Field } from 'formik';
 import leoProfanity from 'leo-profanity';
 import { toast } from 'react-toastify';
-import SvgArrowIcon from '../SvgArrowIcon';
+import SvgArrowIcon from '../../icons/SvgArrowIcon';
 import { currentUsernameSelector } from '../../slices/authentication/authSlice';
 import { activeChannelIdSelector } from '../../slices/channels/channelsSlice';
 import { useAddMessageMutation } from '../../slices/messages/messagesApi';

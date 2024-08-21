@@ -8,14 +8,17 @@ import * as yup from 'yup';
 import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
-import { visibilityAddModalWindow, hideAddModalWindow } from '../../slices/modal/modalSlice';
+import {
+  visibilityModalWindowSelector, typeModalWindowSelector, hideModalWindow,
+} from '../../slices/modal/modalSlice';
 import { channelsSelector } from '../../slices/channels/channelsSlice';
 import { useAddChannelMutation } from '../../slices/channels/channelsApi';
 
 const ModalAddChannel = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const visibility = useSelector(visibilityAddModalWindow);
+  const modalVisibility = useSelector(visibilityModalWindowSelector);
+  const modalType = useSelector(typeModalWindowSelector);
   const inputRef = useRef();
   const entities = useSelector(channelsSelector.selectEntities);
   const [addChannel] = useAddChannelMutation();
@@ -26,7 +29,7 @@ const ModalAddChannel = () => {
   });
 
   const handleHide = () => {
-    dispatch(hideAddModalWindow());
+    dispatch(hideModalWindow());
   };
 
   useEffect(() => {
@@ -36,7 +39,7 @@ const ModalAddChannel = () => {
   }, [inputRef]);
 
   return (
-    <Modal show={visibility} onHide={handleHide} className="modal-dialog-centered" centered>
+    <Modal show={modalVisibility && modalType === 'add'} onHide={handleHide} className="modal-dialog-centered" centered>
       <Modal.Header closeButton>
         <Modal.Title>{t('addChannel')}</Modal.Title>
       </Modal.Header>

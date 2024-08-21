@@ -1,10 +1,10 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { showAddModalWindow } from '../../slices/modal/modalSlice';
+import { showModalWindow } from '../../slices/modal/modalSlice';
 import ModalAddChannel from './ModalAddChannel';
 import ChannelsList from './ChannelsList';
-import SvgPlusIcon from '../SvgPlusIcon';
+import SvgPlusIcon from '../../icons/SvgPlusIcon';
 
 const ChannelsColumn = () => {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ const ChannelsColumn = () => {
 
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b>{t('channels')}</b>
-        <button onClick={() => dispatch(showAddModalWindow())} type="button" className="p-0 text-primary btn btn-group-vertical">
+        <button onClick={() => dispatch(showModalWindow('add'))} type="button" className="p-0 text-primary btn btn-group-vertical">
           <SvgPlusIcon />
           <span className="visually-hidden">{t('plus')}</span>
         </button>
