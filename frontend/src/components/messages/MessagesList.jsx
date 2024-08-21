@@ -9,6 +9,10 @@ const MessagesList = ({ setMessagesCount }) => {
   const containerRef = useRef();
   const actualMessages = Object.values(entities).filter((m) => m.channelId === activeChannelId);
 
+  const scrollToBottom = () => {
+    containerRef.current?.scrollIntoView();
+  };
+
   useEffect(() => {
     if (actualMessages) {
       setMessagesCount(actualMessages.length);
@@ -16,18 +20,15 @@ const MessagesList = ({ setMessagesCount }) => {
   }, [actualMessages, setMessagesCount]);
 
   useEffect(() => {
-    if (containerRef && containerRef.current) {
-      const container = containerRef.current;
-      container.scrollTop = container.scrollHeight;
-    }
-  }, [containerRef, entities]);
+    scrollToBottom();
+  }, [actualMessages]);
 
   if (!actualMessages || actualMessages.length === 0) {
     return null;
   }
 
   return (
-    <div id="messages-box" ref={containerRef} className="chat-messages overflow-auto px-5 ">
+    <div id="messages-box" className="chat-messages overflow-auto px-5 ">
       {actualMessages.map((message) => (
         <div className="text-break mb-2" key={message.id}>
           <b>
@@ -36,6 +37,7 @@ const MessagesList = ({ setMessagesCount }) => {
           {`: ${message.body}`}
         </div>
       ))}
+      <div ref={containerRef} />
     </div>
   );
 };
