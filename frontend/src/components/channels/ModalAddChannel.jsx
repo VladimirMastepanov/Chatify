@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -11,18 +11,18 @@ import {
 import {
   visibilityModalWindowSelector, typeModalWindowSelector, hideModalWindow,
 } from '../../slices/modal/modalSlice';
-import { channelsSelector } from '../../slices/channels/channelsSlice';
-import { useAddChannelMutation } from '../../slices/channels/channelsApi';
+import { useAddChannelMutation, useGetChannelsQuery } from '../../slices/channels/channelsApi';
 
 const ModalAddChannel = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+
+  const { data: channels, isSuccess } = useGetChannelsQuery();
   const modalVisibility = useSelector(visibilityModalWindowSelector);
   const modalType = useSelector(typeModalWindowSelector);
   const inputRef = useRef();
-  const entities = useSelector(channelsSelector.selectEntities);
   const [addChannel] = useAddChannelMutation();
-  const channelsNames = Object.values(entities).map((channel) => channel.name);
+  const [channelNames, setChannelNames] = useState(null);
 
   const validationSchema = yup.object().shape({
     name: yup.string().min(3, t('lengthLimits')).max(20, t('lengthLimits')).required(t('requiredField')),
@@ -31,6 +31,12 @@ const ModalAddChannel = () => {
   const handleHide = () => {
     dispatch(hideModalWindow());
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setChannelNames(channels.map((el) => el.name));
+    }
+  }, [isSuccess, channels]);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -51,7 +57,7 @@ const ModalAddChannel = () => {
           validationSchema={validationSchema}
           onSubmit={async (values, actions) => {
             const validName = leoProfanity.clean(values.name);
-            if (!channelsNames.includes(validName)) {
+            if (!channelNames.includes(validName)) {
               const newChannel = { name: validName };
               try {
                 await addChannel(newChannel);

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -13,8 +13,7 @@ import {
   typeModalWindowSelector,
   hideModalWindow,
 } from '../../slices/modal/modalSlice';
-import { channelsSelector } from '../../slices/channels/channelsSlice';
-import { useUpdateChannelMutation } from '../../slices/channels/channelsApi';
+import { useUpdateChannelMutation, useGetChannelsQuery } from '../../slices/channels/channelsApi';
 
 const ModalRenameChannel = ({ id, oldName }) => {
   const dispatch = useDispatch();
@@ -22,9 +21,9 @@ const ModalRenameChannel = ({ id, oldName }) => {
   const modalVisibility = useSelector(visibilityModalWindowSelector);
   const modalType = useSelector(typeModalWindowSelector);
   const inputRef = useRef();
-  const entities = useSelector(channelsSelector.selectEntities);
+  const { data: channels, isSuccess } = useGetChannelsQuery();
   const [updateChannel] = useUpdateChannelMutation();
-  const channelsNames = Object.values(entities).map((channel) => channel.name);
+  const [channelNames, setChannelNames] = useState(null);
 
   const validationSchema = yup.object().shape({
     newName: yup.string().min(3, t('lengthLimits')).max(20, t('lengthLimits')).required(t('requiredField')),
@@ -33,6 +32,12 @@ const ModalRenameChannel = ({ id, oldName }) => {
   const handleHide = () => {
     dispatch(hideModalWindow('rename'));
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      setChannelNames(channels.map((channel) => channel.name));
+    }
+  }, [isSuccess, channels]);
 
   useEffect(() => {
     if (inputRef.current && oldName && modalVisibility) {
@@ -55,7 +60,7 @@ const ModalRenameChannel = ({ id, oldName }) => {
           validationSchema={validationSchema}
           onSubmit={async (values, actions) => {
             const validName = leoProfanity.clean(values.newName);
-            if (!channelsNames.includes(validName)) {
+            if (!channelNames.includes(validName)) {
               const newName = { name: validName };
               try {
                 await updateChannel({ id, newName });

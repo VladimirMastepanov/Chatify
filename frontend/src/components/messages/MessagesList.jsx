@@ -1,17 +1,23 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { messagesSelector } from '../../slices/messages/messagesSlice';
+import { useGetMessagesQuery } from '../../slices/messages/messagesApi';
 import { activeChannelIdSelector } from '../../slices/channels/channelsSlice';
 
 const MessagesList = ({ setMessagesCount }) => {
-  const entities = useSelector(messagesSelector.selectEntities);
+  const { data: messages } = useGetMessagesQuery();
   const activeChannelId = useSelector(activeChannelIdSelector);
+  const [actualMessages, setActualMessages] = useState(null);
   const containerRef = useRef();
-  const actualMessages = Object.values(entities).filter((m) => m.channelId === activeChannelId);
 
   const scrollToBottom = () => {
     containerRef.current?.scrollIntoView();
   };
+
+  useEffect(() => {
+    if (messages && messages.length !== 0) {
+      setActualMessages(messages.filter((m) => m.channelId === activeChannelId));
+    }
+  }, [messages, activeChannelId]);
 
   useEffect(() => {
     if (actualMessages) {

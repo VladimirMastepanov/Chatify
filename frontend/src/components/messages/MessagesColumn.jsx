@@ -3,20 +3,22 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import AddNewMessageForm from './AddNewMessageForm';
 import MessagesList from './MessagesList';
-import { activeChannelIdSelector, channelsSelector } from '../../slices/channels/channelsSlice';
+import { activeChannelIdSelector } from '../../slices/channels/channelsSlice';
+import { useGetChannelsQuery } from '../../slices/channels/channelsApi';
 
 const MessagesColumn = () => {
+  const { data: channels, isSuccess } = useGetChannelsQuery();
   const activeChannelId = useSelector(activeChannelIdSelector);
-  const channels = useSelector(channelsSelector.selectEntities);
   const [messageCount, setMessagesCount] = useState(0);
   const [activeChannelName, setActiveChannelName] = useState(null);
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (channels[activeChannelId]) {
-      setActiveChannelName(channels[activeChannelId].name);
+    if (isSuccess && channels.length !== 0) {
+      const [active] = channels.filter((channel) => channel.id === activeChannelId);
+      setActiveChannelName(active.name);
     }
-  }, [channels, activeChannelId]);
+  }, [channels, activeChannelId, isSuccess]);
 
   return (
     <div className="col p-0 h-100">
