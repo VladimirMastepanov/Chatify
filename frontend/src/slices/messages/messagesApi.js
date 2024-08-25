@@ -5,7 +5,7 @@ import socket from '../../socket';
 export const messagesApi = createApi({
   reducerPath: 'messagesApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: PAGEPATH.BASEMESSAGE,
+    baseUrl: PAGEPATH.MESSAGE,
     prepareHeaders: (headers, { getState }) => {
       const { token } = getState().auth;
       if (token) {

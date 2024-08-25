@@ -5,7 +5,7 @@ import socket from '../../socket';
 export const channelsApi = createApi({
   reducerPath: 'channelsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: PAGEPATH.BASECHANNEL,
+    baseUrl: PAGEPATH.CHANNEL,
     prepareHeaders: (headers, { getState }) => {
       const { token } = getState().auth;
       if (token) {

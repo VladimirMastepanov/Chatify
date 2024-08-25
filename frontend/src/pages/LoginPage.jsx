@@ -29,12 +29,18 @@ const LoginForm = () => {
   }, [inputRef]);
 
   useEffect(() => {
-    console.log();
     if (token) {
       setAuthFailed(null);
       navigate(PAGEPATH.HOME);
     }
   }, [token, navigate]);
+
+  // useEffect(() => {
+  //   if (isSuccess && fetchData?.token) {
+  //     setAuthFailed(null);
+  //     navigate('/');
+  //   }
+  // }, [isSuccess, fetchData, navigate]);
 
   return (
     <Formik

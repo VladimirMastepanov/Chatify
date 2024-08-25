@@ -11,11 +11,6 @@ export const authApi = createApi({
         method: 'POST',
         body: authValues,
       }),
-      transformResponse: (response) => {
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('username', response.username);
-        return response;
-      },
     }),
     fetchSignUp: builder.mutation({
       query: (signUpValues) => ({
@@ -23,11 +18,6 @@ export const authApi = createApi({
         method: 'POST',
         body: signUpValues,
       }),
-      transformResponse: (response) => {
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('username', response.username);
-        return response;
-      },
     }),
   }),
 });

@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
+import { authApi } from './authApi';
 
 const authSlice = createSlice({
   name: 'auth',
@@ -8,6 +9,10 @@ const authSlice = createSlice({
     token: localStorage.getItem('token') ? localStorage.getItem('token') : null,
   },
   reducers: {
+    setCredentials: (state, action) => {
+      state.token = action.payload.token;
+      state.username = action.payload.username;
+    },
     clearCredentials: (state) => {
       localStorage.removeItem('token');
       localStorage.removeItem('username');
@@ -15,9 +20,30 @@ const authSlice = createSlice({
       state.username = null;
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(
+        authApi.endpoints.fetchAuth.matchFulfilled,
+        (state, { payload }) => {
+          state.token = payload.token;
+          state.username = payload.username;
+          localStorage.setItem('token', payload.token);
+          localStorage.setItem('username', payload.username);
+        },
+      )
+      .addMatcher(
+        authApi.endpoints.fetchSignUp.matchFulfilled,
+        (state, { payload }) => {
+          state.token = payload.token;
+          state.username = payload.username;
+          localStorage.setItem('token', payload.token);
+          localStorage.setItem('username', payload.username);
+        },
+      );
+  },
 });
 
-export const { clearCredentials } = authSlice.actions;
+export const { setCredentials, clearCredentials } = authSlice.actions;
 export const currentTokenSelector = (state) => state.auth.token;
 export const currentUsernameSelector = (state) => state.auth.username;
 export const authorizationError = (state) => state.auth.error;
