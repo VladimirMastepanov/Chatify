@@ -35,13 +35,6 @@ const LoginForm = () => {
     }
   }, [token, navigate]);
 
-  // useEffect(() => {
-  //   if (isSuccess && fetchData?.token) {
-  //     setAuthFailed(null);
-  //     navigate('/');
-  //   }
-  // }, [isSuccess, fetchData, navigate]);
-
   return (
     <Formik
       initialValues={{ username: '', password: '' }}
