@@ -16,7 +16,9 @@ const MessagesColumn = () => {
   useEffect(() => {
     if (isSuccess && channels.length !== 0) {
       const [active] = channels.filter((channel) => channel.id === activeChannelId);
-      setActiveChannelName(active.name);
+      if (active) {
+        setActiveChannelName(active.name);
+      }
     }
   }, [channels, activeChannelId, isSuccess]);
 

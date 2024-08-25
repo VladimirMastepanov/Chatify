@@ -12,6 +12,7 @@ import {
   visibilityModalWindowSelector, typeModalWindowSelector, hideModalWindow,
 } from '../../slices/modal/modalSlice';
 import { useAddChannelMutation, useGetChannelsQuery } from '../../slices/channels/channelsApi';
+import { setActiveChannelId } from '../../slices/channels/channelsSlice';
 
 const ModalAddChannel = () => {
   const dispatch = useDispatch();
@@ -60,7 +61,8 @@ const ModalAddChannel = () => {
             if (!channelNames.includes(validName)) {
               const newChannel = { name: validName };
               try {
-                await addChannel(newChannel);
+                const response = await addChannel(newChannel).unwrap();
+                dispatch(setActiveChannelId(response.id));
                 toast.success(t('channelCreated'));
                 actions.resetForm();
                 handleHide();

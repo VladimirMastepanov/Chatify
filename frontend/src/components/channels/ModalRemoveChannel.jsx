@@ -4,7 +4,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useRemoveChannelMutation } from '../../slices/channels/channelsApi';
-import { setActiveChannelId } from '../../slices/channels/channelsSlice';
+import { setActiveChannelId, activeChannelIdSelector } from '../../slices/channels/channelsSlice';
 import {
   visibilityModalWindowSelector,
   typeModalWindowSelector,
@@ -13,6 +13,7 @@ import {
 
 const ModalRemoveChannel = ({ id }) => {
   const modalVisibility = useSelector(visibilityModalWindowSelector);
+  const activeChannelId = useSelector(activeChannelIdSelector);
   const modalType = useSelector(typeModalWindowSelector);
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -25,7 +26,9 @@ const ModalRemoveChannel = ({ id }) => {
   const handleChannelRemove = async () => {
     try {
       await removeChannel(id);
-      dispatch(setActiveChannelId('1'));
+      if (id === activeChannelId) {
+        dispatch(setActiveChannelId('1'));
+      }
       toast.success(t('channelDeleted'));
       handleHide();
     } catch (e) {
