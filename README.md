@@ -11,8 +11,13 @@ Chatify is a real-time messaging application built with React and Redux, offerin
 * User authentication: Register and log in to access the chat.
 * Notifications: Receive toast notifications for various events, such as new messages or channel updates.
 ___
+<img width="876" alt="Снимок экрана 2024-09-12 в 14 06 34" src="https://github.com/user-attachments/assets/7bce2bd5-56ed-4d4d-bd43-648b719ef8f7">
+<img width="884" alt="Снимок экрана 2024-09-12 в 14 05 08" src="https://github.com/user-attachments/assets/268c70c3-67ef-4e8e-bf40-d0e9a8f152cd">
+<img width="882" alt="Снимок экрана 2024-09-12 в 14 05 27" src="https://github.com/user-attachments/assets/d7d7b5c9-91f7-4d1f-aed6-271b5e4f6b3a">
+<img width="877" alt="Снимок экрана 2024-09-12 в 14 06 49" src="https://github.com/user-attachments/assets/21c11f6c-0319-451e-86a5-084795c7f84f">
+<img width="875" alt="Снимок экрана 2024-09-12 в 14 08 18" src="https://github.com/user-attachments/assets/b99b01cf-a721-4dde-8f25-3ce384bf0263">
 
-___
+
 #### Technologies Used
 ##### Frontend:
 
