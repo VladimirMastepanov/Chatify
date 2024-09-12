@@ -1,8 +1,8 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/65b6b79bd0f04e308494/maintainability)](https://codeclimate.com/github/VladimirMastepanov/frontend-project-12/maintainability)<br>
 ___
 ### Chatify
-[Try it now!](https://frontend-project-1-2y5w.onrender.com "Follow the link to try it")
-https://frontend-project-1-2y5w.onrender.com
+[Try it now!](https://chatify-dxv7.onrender.com "Follow the link to try it")<br>
+https://chatify-dxv7.onrender.com
 
 <img width="944" alt="Снимок экрана 2024-08-05 в 14 57 48" src="https://github.com/user-attachments/assets/7d48c0b8-8d40-4952-8a82-32edc4bb6fb9">
 

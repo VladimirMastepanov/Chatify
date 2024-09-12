@@ -20,7 +20,7 @@ const TopNavigation = () => {
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
-        <a className="navbar-brand" href="/">{t('hexletChat')}</a>
+        <a className="navbar-brand" href="/">{t('chatify')}</a>
         {auth && (
           <button onClick={handleLogout} type="button" className="btn btn-primary">{t('exit')}</button>
         )}
