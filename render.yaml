@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: frontend-project-12
+    name: Chatify
     env: node
     buildCommand: npm install && cd frontend && npm install && npm run build
     startCommand: npx start-server -s ./frontend/build

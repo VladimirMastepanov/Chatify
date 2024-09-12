@@ -55,7 +55,7 @@ const AddNewMessageForm = () => {
             <label htmlFor="body" className="visually-hidden">{t('newMessage')}</label>
             <button type="submit" className="btn btn-group-vertical border border-secondary" disabled={props.isSubmitting}>
               <SvgArrowIcon />
-              <span className="visually-hidden">{t('sent')}</span>
+              <span className="visually-hidden">{t('send')}</span>
             </button>
           </div>
         </Form>

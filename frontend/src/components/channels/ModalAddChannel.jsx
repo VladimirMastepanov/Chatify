@@ -91,7 +91,7 @@ const ModalAddChannel = () => {
               <ErrorMessage name="name" component="div" className="invalid-feedback" />
               <div className="d-flex justify-content-end">
                 <Button type="button" className="me-2 btn btn-secondary" onClick={handleHide}>{t('cancel')}</Button>
-                <Button type="submit" className="btn btn-primary">{t('sent')}</Button>
+                <Button type="submit" className="btn btn-primary">{t('send')}</Button>
               </div>
             </Form>
           )}
