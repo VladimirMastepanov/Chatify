@@ -18,9 +18,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/VladimirMastepanov/frontend-project-12/issues"
+    "url": "https://github.com/VladimirMastepanov/Chatify/issues"
   },
-  "homepage": "https://github.com/VladimirMastepanov/frontend-project-12#readme",
+  "homepage": "https://github.com/VladimirMastepanov/Chatify#readme",
   "dependencies": {
     "@hexlet/chat-server": "^2.0.3"
   }
