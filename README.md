@@ -1,7 +1,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/65b6b79bd0f04e308494/maintainability)](https://codeclimate.com/github/VladimirMastepanov/frontend-project-12/maintainability)<br>
 ___
 ### Chatify – Real-Time Multi-Channel Chat Application
-https://chatify-dxv7.onrender.com
+https://chatify-dxv7.onrender.com *use admin/admin for login/password*
 
 Chatify is a real-time messaging application built with React and Redux, offering support for multiple channels. Users can sign up or log in to join chat rooms, create new channels, rename or delete them as needed.
 
